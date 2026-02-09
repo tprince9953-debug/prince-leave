@@ -3,13 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>프린스 연차휴가 관리</title>
+<title>프린스 연차휴가 관리 2025~2026</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
 <style>
-/* ===== Reset & Base ===== */
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Segoe UI','Apple SD Gothic Neo','Malgun Gothic',sans-serif;background:#f0f2f5;color:#1a1a2e;line-height:1.6}
-/* ===== Header ===== */
 .header{background:linear-gradient(135deg,#4a00e0,#8e2de2);color:#fff;padding:14px 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(74,0,224,.3)}
 .header h1{font-size:1.25rem;display:flex;align-items:center;gap:8px}
 .header-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
@@ -20,22 +18,19 @@ body{font-family:'Segoe UI','Apple SD Gothic Neo','Malgun Gothic',sans-serif;bac
 .btn-admin{background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3)}
 .btn-admin:hover{background:rgba(255,255,255,.35)}
 .btn-sync{background:rgba(255,255,255,.15);color:#fff;font-size:.78rem;border:1px solid rgba(255,255,255,.25)}
-/* ===== Tabs ===== */
 .tabs{display:flex;gap:0;background:#fff;border-bottom:2px solid #e8e8e8;padding:0 24px}
 .tab{padding:14px 24px;cursor:pointer;font-weight:600;color:#888;border-bottom:3px solid transparent;transition:all .2s}
 .tab:hover{color:#4a00e0}
 .tab.active{color:#4a00e0;border-bottom-color:#4a00e0}
-/* ===== Content ===== */
 .content{max-width:1200px;margin:0 auto;padding:20px}
 .section{display:none}
 .section.active{display:block}
-/* ===== Calendar ===== */
-.cal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.cal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px}
 .cal-header h2{font-size:1.3rem;color:#1a1a2e}
 .cal-nav{display:flex;align-items:center;gap:12px}
 .cal-nav button{width:36px;height:36px;border-radius:50%;border:1px solid #ddd;background:#fff;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:all .2s}
 .cal-nav button:hover{background:#4a00e0;color:#fff;border-color:#4a00e0}
-.cal-legend{display:flex;gap:14px;font-size:.78rem;color:#666}
+.cal-legend{display:flex;gap:14px;font-size:.78rem;color:#666;flex-wrap:wrap}
 .cal-legend span{display:flex;align-items:center;gap:4px}
 .cal-legend i{width:10px;height:10px;border-radius:3px;display:inline-block}
 .calendar-table{width:100%;border-collapse:collapse;table-layout:fixed;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.06)}
@@ -55,11 +50,10 @@ td.holiday-cell{background:#fff5f5}
 .cal-event.type-연차{background:#4a00e0}
 .cal-event.type-반차{background:#f39c12}
 .cal-event.type-반반차{background:#27ae60}
-/* ===== Employee Table ===== */
 .emp-section{margin-top:28px}
 .emp-section h3{font-size:1.1rem;margin-bottom:14px;display:flex;align-items:center;gap:8px}
 .emp-table-wrap{overflow-x:auto;background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.06)}
-.emp-table{width:100%;border-collapse:collapse;min-width:700px}
+.emp-table{width:100%;border-collapse:collapse;min-width:600px}
 .emp-table th{padding:14px 12px;font-size:.8rem;font-weight:700;color:#666;text-align:center;background:#f8f9fa;border-bottom:2px solid #e8e8e8;white-space:nowrap}
 .emp-table td{padding:12px;text-align:center;border-bottom:1px solid #f0f0f0;font-size:.88rem}
 .emp-table tr:hover{background:#fafafe}
@@ -73,8 +67,6 @@ td.holiday-cell{background:#fff5f5}
 .gauge-fill{height:100%;border-radius:5px;transition:width .6s ease}
 .gauge-text{font-size:.75rem;color:#666;white-space:nowrap;min-width:35px}
 .remaining-badge{font-weight:800;padding:4px 10px;border-radius:12px;font-size:.85rem}
-.status-badge{padding:4px 12px;border-radius:12px;font-size:.75rem;font-weight:600}
-/* ===== Modals ===== */
 .modal-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:200;align-items:center;justify-content:center;padding:20px}
 .modal-overlay.show{display:flex}
 .modal{background:#fff;border-radius:16px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2)}
@@ -87,13 +79,16 @@ td.holiday-cell{background:#fff5f5}
 .modal-close:hover{background:#e74c3c;color:#fff}
 .modal-body{padding:24px}
 .modal-footer{padding:16px 24px;border-top:1px solid #eee;display:flex;justify-content:flex-end;gap:8px}
-/* ===== Apply Modal ===== */
-.step-indicator{display:flex;gap:0;margin-bottom:24px}
+.step-indicator{display:flex;gap:0;margin-bottom:20px}
 .step{flex:1;text-align:center;padding:10px 4px;font-size:.78rem;font-weight:600;color:#aaa;background:#f8f9fa;position:relative;transition:all .3s}
 .step.active{background:#4a00e0;color:#fff}
 .step.done{background:#27ae60;color:#fff}
 .step:first-child{border-radius:8px 0 0 8px}
 .step:last-child{border-radius:0 8px 8px 0}
+.notice-box{background:linear-gradient(135deg,#f0ebff,#e8f5e9);border:1px solid #d4c5f9;border-radius:10px;padding:14px 18px;margin-bottom:20px;display:flex;align-items:flex-start;gap:10px;font-size:.84rem;color:#333;line-height:1.6}
+.notice-box .notice-icon{font-size:1.3rem;flex-shrink:0;margin-top:1px}
+.notice-box .notice-text{flex:1}
+.notice-box .notice-text b{color:#4a00e0}
 .emp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .emp-card{padding:14px 10px;border:2px solid #e8e8e8;border-radius:12px;text-align:center;cursor:pointer;transition:all .2s}
 .emp-card:hover{border-color:#4a00e0;background:#f8f6ff}
@@ -123,7 +118,6 @@ td.holiday-cell{background:#fff5f5}
 .confirm-row .label{color:#888}
 .confirm-row .value{font-weight:700}
 .copy-msg-box{background:#f0ebff;border-radius:8px;padding:14px;margin-top:12px;font-size:.85rem;color:#4a00e0;line-height:1.5}
-/* ===== Detail Modal ===== */
 .detail-top{display:flex;align-items:center;gap:16px;margin-bottom:20px}
 .detail-avatar{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:1.3rem}
 .detail-info h4{font-size:1.15rem;font-weight:700}
@@ -140,7 +134,6 @@ td.holiday-cell{background:#fff5f5}
 .history-type{padding:3px 10px;border-radius:10px;color:#fff;font-size:.75rem;font-weight:600}
 .history-cancel-btn{padding:4px 10px;border-radius:8px;border:1px solid #e74c3c;background:#fff;color:#e74c3c;font-size:.72rem;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap}
 .history-cancel-btn:hover{background:#e74c3c;color:#fff}
-/* ===== Admin ===== */
 .admin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;margin-bottom:20px}
 .admin-emp-card{background:#fff;border-radius:12px;padding:16px;border:1px solid #e8e8e8;transition:all .2s}
 .admin-emp-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.08)}
@@ -160,29 +153,38 @@ td.holiday-cell{background:#fff5f5}
 .btn-success:hover{background:#1e8449}
 .btn-secondary{background:#f0f0f0;color:#555;border:1px solid #ddd}
 .btn-secondary:hover{background:#e0e0e0}
-/* ===== Form ===== */
 .form-group{margin-bottom:16px}
 .form-group label{display:block;font-size:.82rem;font-weight:600;color:#555;margin-bottom:6px}
 .form-group input,.form-group select{width:100%;padding:10px 12px;border:1px solid #ddd;border-radius:8px;font-size:.9rem;transition:border .2s}
 .form-group input:focus,.form-group select:focus{outline:none;border-color:#4a00e0}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-/* ===== Policy ===== */
 .policy-card{background:#fff;border-radius:12px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,.06);margin-bottom:16px}
 .policy-card h4{font-size:1rem;margin-bottom:12px;display:flex;align-items:center;gap:8px}
 .policy-table{width:100%;border-collapse:collapse}
 .policy-table th,.policy-table td{padding:10px 14px;text-align:left;font-size:.85rem;border-bottom:1px solid #f0f0f0}
 .policy-table th{background:#f8f9fa;font-weight:600;color:#555}
-/* ===== Toast ===== */
-.toast{position:fixed;bottom:24px;right:24px;background:#333;color:#fff;padding:14px 24px;border-radius:12px;font-size:.88rem;z-index:300;opacity:0;transform:translateY(20px);transition:all .3s;display:flex;align-items:center;gap:8px;max-width:360px}
+.toast{position:fixed;bottom:24px;right:24px;background:#333;color:#fff;padding:14px 24px;border-radius:12px;font-size:.88rem;z-index:300;opacity:0;transform:translateY(20px);transition:all .3s;display:flex;align-items:center;gap:8px;max-width:400px}
 .toast.show{opacity:1;transform:translateY(0)}
-/* ===== Save Button ===== */
 .save-float{position:fixed;bottom:24px;right:24px;z-index:150}
 .save-float .btn{padding:12px 24px;font-size:.95rem;border-radius:12px;box-shadow:0 4px 16px rgba(74,0,224,.3)}
-/* ===== Data Tools ===== */
 .data-tools{margin-top:20px;padding:16px;background:#fff;border-radius:12px;border:1px solid #e8e8e8}
 .data-tools h4{margin-bottom:12px;font-size:.95rem;display:flex;align-items:center;gap:8px}
 .data-tools .btn-row{display:flex;gap:8px;flex-wrap:wrap}
-/* ===== Responsive ===== */
+/* Holiday Admin */
+.holiday-admin{margin-top:20px;padding:16px;background:#fff;border-radius:12px;border:1px solid #e8e8e8}
+.holiday-admin h4{margin-bottom:12px;font-size:.95rem;display:flex;align-items:center;gap:8px}
+.holiday-add-row{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:flex-end}
+.holiday-add-row .form-group{margin-bottom:0;flex:1;min-width:140px}
+.holiday-list{max-height:300px;overflow-y:auto}
+.holiday-item{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-bottom:1px solid #f0f0f0;font-size:.85rem}
+.holiday-item:hover{background:#fafafe}
+.holiday-item .hi-date{font-weight:700;color:#4a00e0;min-width:100px}
+.holiday-item .hi-name{flex:1;margin-left:12px}
+.holiday-item .hi-type{font-size:.7rem;padding:2px 8px;border-radius:8px;margin-left:8px}
+.holiday-item .hi-type.default{background:#f0f0f0;color:#888}
+.holiday-item .hi-type.custom{background:#fff5f5;color:#e74c3c}
+.holiday-del-btn{padding:3px 8px;border-radius:6px;border:1px solid #e74c3c;background:#fff;color:#e74c3c;font-size:.7rem;cursor:pointer;transition:all .2s}
+.holiday-del-btn:hover{background:#e74c3c;color:#fff}
 @media(max-width:768px){
 .header{padding:10px 14px}
 .header h1{font-size:1rem}
@@ -194,12 +196,12 @@ td.holiday-cell{background:#fff5f5}
 .cal-event{font-size:.6rem;padding:1px 3px}
 .admin-grid{grid-template-columns:1fr}
 .form-row{grid-template-columns:1fr}
+.holiday-add-row{flex-direction:column}
 }
 </style>
 </head>
 <body>
 
-<!-- ===== HEADER ===== -->
 <div class="header">
   <h1>📋 프린스 연차휴가 관리 <span style="font-size:.75rem;opacity:.7">2025~2026</span></h1>
   <div class="header-right">
@@ -210,18 +212,13 @@ td.holiday-cell{background:#fff5f5}
   </div>
 </div>
 
-<!-- ===== TABS ===== -->
 <div class="tabs">
   <div class="tab active" onclick="switchTab('dashboard')">📅 대시보드</div>
   <div class="tab" onclick="switchTab('policy')">📖 연차규정</div>
 </div>
 
-<!-- ===== CONTENT ===== -->
 <div class="content">
-
-  <!-- Dashboard -->
   <div class="section active" id="sec-dashboard">
-    <!-- Calendar -->
     <div class="cal-header">
       <div class="cal-nav">
         <button onclick="changeMonth(-1)">◀</button>
@@ -236,8 +233,6 @@ td.holiday-cell{background:#fff5f5}
       </div>
     </div>
     <table class="calendar-table" id="calendarTable"></table>
-
-    <!-- Employee Table -->
     <div class="emp-section">
       <h3>👥 직원별 연차 현황</h3>
       <div class="emp-table-wrap">
@@ -246,7 +241,6 @@ td.holiday-cell{background:#fff5f5}
     </div>
   </div>
 
-  <!-- Policy -->
   <div class="section" id="sec-policy">
     <div class="policy-card">
       <h4>📌 연차휴가 부여 기준</h4>
@@ -280,18 +274,18 @@ td.holiday-cell{background:#fff5f5}
           <tr><td>사용 기한</td><td>갱신일 기준 1년 이내</td></tr>
           <tr><td>미사용 연차</td><td>수당으로 정산 또는 소멸</td></tr>
           <tr><td>취소 방법</td><td>시스템에서 취소 후 대표님께 취소 메시지 전송</td></tr>
+          <tr><td>사용 권장</td><td>연차사용촉진 권장, 팀원간 일정 확인 후 자유롭게 사용</td></tr>
         </tbody>
       </table>
     </div>
   </div>
 </div>
 
-<!-- ===== SAVE BUTTON ===== -->
 <div class="save-float" id="saveFloat" style="display:none">
   <button class="btn btn-primary" onclick="saveData()" style="background:linear-gradient(135deg,#4a00e0,#8e2de2)">💾 저장하기</button>
 </div>
 
-<!-- ===== APPLY MODAL ===== -->
+<!-- Apply Modal -->
 <div class="modal-overlay" id="applyModal">
   <div class="modal modal-md">
     <div class="modal-header">
@@ -299,6 +293,13 @@ td.holiday-cell{background:#fff5f5}
       <button class="modal-close" onclick="closeModal('applyModal')">✕</button>
     </div>
     <div class="modal-body">
+      <div class="notice-box">
+        <span class="notice-icon">🌿</span>
+        <div class="notice-text">
+          <b>우리 회사는 연차사용촉진을 권장하고 있습니다.</b><br>
+          팀원간의 일정 확인 후 자유롭게 사용 바랍니다.
+        </div>
+      </div>
       <div class="step-indicator">
         <div class="step active" id="step1">① 신청자</div>
         <div class="step" id="step2">② 유형</div>
@@ -310,7 +311,7 @@ td.holiday-cell{background:#fff5f5}
   </div>
 </div>
 
-<!-- ===== DETAIL MODAL ===== -->
+<!-- Detail Modal -->
 <div class="modal-overlay" id="detailModal">
   <div class="modal modal-md">
     <div class="modal-header">
@@ -321,7 +322,7 @@ td.holiday-cell{background:#fff5f5}
   </div>
 </div>
 
-<!-- ===== ADMIN LOGIN MODAL ===== -->
+<!-- Admin Login -->
 <div class="modal-overlay" id="adminLoginModal">
   <div class="modal modal-sm">
     <div class="modal-header">
@@ -341,7 +342,7 @@ td.holiday-cell{background:#fff5f5}
   </div>
 </div>
 
-<!-- ===== ADMIN PANEL MODAL ===== -->
+<!-- Admin Panel -->
 <div class="modal-overlay" id="adminModal">
   <div class="modal modal-lg">
     <div class="modal-header">
@@ -352,7 +353,7 @@ td.holiday-cell{background:#fff5f5}
   </div>
 </div>
 
-<!-- ===== ADD/EDIT EMPLOYEE MODAL ===== -->
+<!-- Add/Edit Employee -->
 <div class="modal-overlay" id="empFormModal">
   <div class="modal modal-sm">
     <div class="modal-header">
@@ -367,7 +368,7 @@ td.holiday-cell{background:#fff5f5}
   </div>
 </div>
 
-<!-- ===== CANCEL CONFIRM MODAL ===== -->
+<!-- Cancel Confirm -->
 <div class="modal-overlay" id="cancelModal">
   <div class="modal modal-sm">
     <div class="modal-header">
@@ -382,20 +383,15 @@ td.holiday-cell{background:#fff5f5}
   </div>
 </div>
 
-<!-- ===== TOAST ===== -->
 <div class="toast" id="toast"></div>
 
 <script>
-// ═══════════════════════════════════════════════════════════
-// CONFIG
-// ═══════════════════════════════════════════════════════════
-const ADMIN_PW = 'admin1234';
-const STORAGE_KEY = 'prince_leave_v4';
+const ADMIN_PW='admin1234';
+const STORAGE_KEY='prince_leave_v5';
+const HOLIDAY_STORAGE_KEY='prince_holidays_custom';
 
-// ═══════════════════════════════════════════════════════════
-// 2026년 대한민국 공휴일 (2026.02.09 최신 업데이트)
-// ═══════════════════════════════════════════════════════════
-const HOLIDAYS = {
+// 기본 공휴일 (수정 불가)
+const DEFAULT_HOLIDAYS={
   '2025-12-25':'크리스마스',
   '2026-01-01':'신정',
   '2026-02-16':'설날 연휴',
@@ -420,154 +416,119 @@ const HOLIDAYS = {
   '2026-12-25':'크리스마스'
 };
 
-// ═══════════════════════════════════════════════════════════
-// DEFAULT EMPLOYEES
-// ═══════════════════════════════════════════════════════════
-const DEFAULT_EMP = [
+// 관리자 추가 공휴일
+let customHolidays={};
+
+// 통합 공휴일 반환
+function getAllHolidays(){
+  return {...DEFAULT_HOLIDAYS,...customHolidays};
+}
+
+const DEFAULT_EMP=[
   {id:'e1',name:'도승지',title:'실장',empNo:'2',totalLeave:15,remaining:11.25,renewDate:'2026-01',color:'#4a00e0',history:[
-    {date:'2026-01-05',type:'연차',detail:'연차'},
-    {date:'2026-01-15',type:'반차',detail:'오전 반차'},
-    {date:'2026-01-22',type:'반반차',detail:'09:30~11:30'},
-    {date:'2026-02-02',type:'반차',detail:'오후 반차'}
+    {date:'2026-01-05',type:'연차',detail:'연차'},{date:'2026-01-15',type:'반차',detail:'오전 반차'},
+    {date:'2026-01-22',type:'반반차',detail:'09:30~11:30'},{date:'2026-02-02',type:'반차',detail:'오후 반차'}
   ]},
   {id:'e2',name:'정훈필',title:'대리',empNo:'18',totalLeave:13,remaining:8.75,renewDate:'2025-12',color:'#e74c3c',history:[
-    {date:'2026-01-08',type:'연차',detail:'연차'},
-    {date:'2026-01-09',type:'연차',detail:'연차'},
-    {date:'2026-02-04',type:'반반차',detail:'14:00~16:00'},
-    {date:'2026-02-19',type:'연차',detail:'연차'},
+    {date:'2026-01-08',type:'연차',detail:'연차'},{date:'2026-01-09',type:'연차',detail:'연차'},
+    {date:'2026-02-04',type:'반반차',detail:'14:00~16:00'},{date:'2026-02-19',type:'연차',detail:'연차'},
     {date:'2026-02-20',type:'반차',detail:'오전 반차'}
   ]},
   {id:'e3',name:'김영훈',title:'대리',empNo:'20',totalLeave:13,remaining:9.25,renewDate:'2025-12',color:'#f39c12',history:[
-    {date:'2026-01-10',type:'연차',detail:'연차'},
-    {date:'2026-01-20',type:'반차',detail:'오후 반차'},
-    {date:'2026-02-02',type:'반차',detail:'오전 반차'},
-    {date:'2026-02-20',type:'반차',detail:'오후 반차'}
+    {date:'2026-01-10',type:'연차',detail:'연차'},{date:'2026-01-20',type:'반차',detail:'오후 반차'},
+    {date:'2026-02-02',type:'반차',detail:'오전 반차'},{date:'2026-02-20',type:'반차',detail:'오후 반차'}
   ]},
   {id:'e4',name:'유시은',title:'사원',empNo:'24',totalLeave:12,remaining:7.75,renewDate:'2025-12',color:'#27ae60',history:[
-    {date:'2026-01-06',type:'연차',detail:'연차'},
-    {date:'2026-01-07',type:'연차',detail:'연차'},
-    {date:'2026-01-13',type:'반차',detail:'오전 반차'},
-    {date:'2026-01-27',type:'반반차',detail:'16:00~18:00'},
+    {date:'2026-01-06',type:'연차',detail:'연차'},{date:'2026-01-07',type:'연차',detail:'연차'},
+    {date:'2026-01-13',type:'반차',detail:'오전 반차'},{date:'2026-01-27',type:'반반차',detail:'16:00~18:00'},
     {date:'2026-02-10',type:'연차',detail:'연차'}
   ]},
   {id:'e5',name:'지영은',title:'사원',empNo:'29',totalLeave:6,remaining:2,renewDate:'2026-04',color:'#8e44ad',history:[
-    {date:'2026-01-02',type:'연차',detail:'연차'},
-    {date:'2026-01-03',type:'연차',detail:'연차'},
-    {date:'2026-01-14',type:'연차',detail:'연차'},
-    {date:'2026-01-21',type:'연차',detail:'연차'}
+    {date:'2026-01-02',type:'연차',detail:'연차'},{date:'2026-01-03',type:'연차',detail:'연차'},
+    {date:'2026-01-14',type:'연차',detail:'연차'},{date:'2026-01-21',type:'연차',detail:'연차'}
   ]}
 ];
 
-// ═══════════════════════════════════════════════════════════
-// STATE
-// ═══════════════════════════════════════════════════════════
-let employees = [];
-let currentMonth = new Date();
-let applyStep = 1;
-let applyData = {empId:null,type:null,halfType:null,quarterTime:null,dates:[]};
-let hasUnsaved = false;
-let isFirebase = false;
+let employees=[];
+let currentMonth=new Date();
+let applyStep=1;
+let applyData={empId:null,type:null,halfType:null,quarterTime:null,dates:[]};
+let hasUnsaved=false;
+let isFirebase=false;
 
-// ═══════════════════════════════════════════════════════════
-// INIT
-// ═══════════════════════════════════════════════════════════
 function init(){
-  const saved = localStorage.getItem(STORAGE_KEY);
-  if(saved){
-    try{ employees = JSON.parse(saved); }
-    catch(e){ employees = JSON.parse(JSON.stringify(DEFAULT_EMP)); }
-  } else {
-    employees = JSON.parse(JSON.stringify(DEFAULT_EMP));
-  }
+  // 직원 데이터 로드
+  const saved=localStorage.getItem(STORAGE_KEY);
+  if(saved){try{employees=JSON.parse(saved)}catch(e){employees=JSON.parse(JSON.stringify(DEFAULT_EMP))}}
+  else{employees=JSON.parse(JSON.stringify(DEFAULT_EMP))}
+  // 커스텀 공휴일 로드
+  const savedH=localStorage.getItem(HOLIDAY_STORAGE_KEY);
+  if(savedH){try{customHolidays=JSON.parse(savedH)}catch(e){customHolidays={}}}
   setTodayDisplay();
   renderCalendar();
   renderEmpTable();
 }
 
 function setTodayDisplay(){
-  const t = new Date();
-  const days = ['일','월','화','수','목','금','토'];
-  document.getElementById('todayDisplay').textContent = `📆 ${t.getFullYear()}년 ${t.getMonth()+1}월 ${t.getDate()}일 (${days[t.getDay()]})`;
+  const t=new Date();
+  const days=['일','월','화','수','목','금','토'];
+  document.getElementById('todayDisplay').textContent=`📆 ${t.getFullYear()}년 ${t.getMonth()+1}월 ${t.getDate()}일 (${days[t.getDay()]})`;
 }
 
-// ═══════════════════════════════════════════════════════════
-// TABS
-// ═══════════════════════════════════════════════════════════
 function switchTab(name){
-  document.querySelectorAll('.tab').forEach((t,i)=>{
-    t.classList.toggle('active', (i===0&&name==='dashboard')||(i===1&&name==='policy'));
-  });
+  document.querySelectorAll('.tab').forEach((t,i)=>{t.classList.toggle('active',(i===0&&name==='dashboard')||(i===1&&name==='policy'))});
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   document.getElementById('sec-'+name).classList.add('active');
 }
 
-// ═══════════════════════════════════════════════════════════
-// CALENDAR
-// ═══════════════════════════════════════════════════════════
-function changeMonth(d){
-  currentMonth.setMonth(currentMonth.getMonth()+d);
-  renderCalendar();
-}
+// ===== CALENDAR =====
+function changeMonth(d){currentMonth.setMonth(currentMonth.getMonth()+d);renderCalendar()}
 
 function renderCalendar(){
-  const y = currentMonth.getFullYear(), m = currentMonth.getMonth();
-  document.getElementById('calTitle').textContent = `${y}년 ${m+1}월`;
-  const first = new Date(y,m,1), last = new Date(y,m+1,0);
-  const startDay = first.getDay(), totalDays = last.getDate();
-  const today = new Date();
-  const todayStr = fmt(today);
-  let html = '<thead><tr><th>일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th></tr></thead><tbody><tr>';
+  const y=currentMonth.getFullYear(),m=currentMonth.getMonth();
+  document.getElementById('calTitle').textContent=`${y}년 ${m+1}월`;
+  const first=new Date(y,m,1),last=new Date(y,m+1,0);
+  const startDay=first.getDay(),totalDays=last.getDate();
+  const todayStr=fmt(new Date());
+  const holidays=getAllHolidays();
+  let html='<thead><tr><th>일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th></tr></thead><tbody><tr>';
   for(let i=0;i<startDay;i++) html+='<td></td>';
   for(let d=1;d<=totalDays;d++){
-    const dow = (startDay+d-1)%7;
+    const dow=(startDay+d-1)%7;
     if(dow===0&&d>1) html+='</tr><tr>';
-    const ds = `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const isToday = ds===todayStr;
-    const isSun = dow===0, isSat = dow===6;
-    const hol = HOLIDAYS[ds];
-    const cellClass = hol ? 'holiday-cell' : '';
-    html+=`<td class="${cellClass}">`;
-    let dateClass = 'cal-date';
-    if(isToday) dateClass+=' today';
-    else if(hol) dateClass+=' holiday';
-    else if(isSun) dateClass+=' sunday';
-    else if(isSat) dateClass+=' saturday';
-    html+=`<span class="${dateClass}">${d}</span>`;
+    const ds=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const isToday=ds===todayStr;
+    const isSun=dow===0,isSat=dow===6;
+    const hol=holidays[ds];
+    html+=`<td class="${hol?'holiday-cell':''}">`;
+    let dc='cal-date';
+    if(isToday) dc+=' today';
+    else if(hol) dc+=' holiday';
+    else if(isSun) dc+=' sunday';
+    else if(isSat) dc+=' saturday';
+    html+=`<span class="${dc}">${d}</span>`;
     if(hol) html+=`<span class="cal-holiday-name">${hol}</span>`;
-    // Events
-    employees.forEach(emp=>{
-      emp.history.forEach(h=>{
-        if(h.date===ds){
-          html+=`<span class="cal-event type-${h.type}" title="${emp.name} ${h.detail}">${emp.name} ${h.type}</span>`;
-        }
-      });
-    });
+    employees.forEach(emp=>{emp.history.forEach(h=>{if(h.date===ds) html+=`<span class="cal-event type-${h.type}" title="${emp.name} ${h.detail}">${emp.name} ${h.type}</span>`})});
     html+='</td>';
   }
-  const remain = (startDay+totalDays)%7;
+  const remain=(startDay+totalDays)%7;
   if(remain>0) for(let i=remain;i<7;i++) html+='<td></td>';
   html+='</tr></tbody>';
-  document.getElementById('calendarTable').innerHTML = html;
+  document.getElementById('calendarTable').innerHTML=html;
 }
 
-function fmt(d){
-  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-}
+function fmt(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
 
-// ═══════════════════════════════════════════════════════════
-// EMPLOYEE TABLE
-// ═══════════════════════════════════════════════════════════
+// ===== EMPLOYEE TABLE (상태 컬럼 삭제) =====
 function renderEmpTable(){
-  const used = e => e.totalLeave - e.remaining;
-  const pct = e => Math.round((used(e)/e.totalLeave)*100);
-  let html = `<thead><tr><th style="text-align:left;padding-left:16px">직원명</th><th>사번</th><th>총연차</th><th>사용</th><th>잔여</th><th>사용률</th><th>갱신일</th><th>상태</th></tr></thead><tbody>`;
+  const used=e=>e.totalLeave-e.remaining;
+  const pct=e=>Math.round((used(e)/e.totalLeave)*100);
+  let html=`<thead><tr><th style="text-align:left;padding-left:16px">직원명</th><th>사번</th><th>총연차</th><th>사용</th><th>잔여</th><th>사용률</th><th>갱신일</th></tr></thead><tbody>`;
   employees.forEach(e=>{
-    const u = used(e), p = pct(e);
-    const remColor = e.remaining<=2?'#e74c3c':e.remaining<=5?'#f39c12':'#27ae60';
-    const statusColor = e.remaining<=2?'#e74c3c':e.remaining<=5?'#f39c12':'#27ae60';
-    const statusBg = e.remaining<=2?'#fee':e.remaining<=5?'#fff8e1':'#e8f5e9';
-    const statusText = e.remaining<=2?'부족':e.remaining<=5?'주의':'여유';
-    const gaugeColor = p>=80?'#e74c3c':p>=50?'#f39c12':'#27ae60';
+    const u=used(e),p=pct(e);
+    const remColor=e.remaining<=2?'#e74c3c':e.remaining<=5?'#f39c12':'#27ae60';
+    const statusBg=e.remaining<=2?'#fee':e.remaining<=5?'#fff8e1':'#e8f5e9';
+    const gaugeColor=p>=80?'#e74c3c':p>=50?'#f39c12':'#27ae60';
     html+=`<tr>
       <td><div class="emp-name-cell" onclick="openDetail('${e.id}')">
         <div class="emp-avatar" style="background:${e.color}">${e.name[0]}</div>
@@ -579,23 +540,19 @@ function renderEmpTable(){
       <td><span class="remaining-badge" style="background:${statusBg};color:${remColor}">${e.remaining}일</span></td>
       <td><div class="gauge-wrap"><div class="gauge-bar"><div class="gauge-fill" style="width:${p}%;background:${gaugeColor}"></div></div><span class="gauge-text">${p}%</span></div></td>
       <td style="font-size:.8rem;color:#888">${e.renewDate.replace('-','년 ')}월</td>
-      <td><span class="status-badge" style="background:${statusBg};color:${statusColor}">${statusText}</span></td>
     </tr>`;
   });
   html+='</tbody>';
-  document.getElementById('empTable').innerHTML = html;
+  document.getElementById('empTable').innerHTML=html;
 }
 
-// ═══════════════════════════════════════════════════════════
-// DETAIL MODAL
-// ═══════════════════════════════════════════════════════════
+// ===== DETAIL MODAL =====
 function openDetail(id){
-  const e = employees.find(x=>x.id===id);
-  if(!e) return;
-  const used = e.totalLeave - e.remaining;
-  const pct = Math.round((used/e.totalLeave)*100);
-  const gaugeColor = pct>=80?'#e74c3c':pct>=50?'#f39c12':'#27ae60';
-  let html = `
+  const e=employees.find(x=>x.id===id);if(!e) return;
+  const used=e.totalLeave-e.remaining;
+  const pct=Math.round((used/e.totalLeave)*100);
+  const gaugeColor=pct>=80?'#e74c3c':pct>=50?'#f39c12':'#27ae60';
+  let html=`
     <div class="detail-top">
       <div class="detail-avatar" style="background:${e.color}">${e.name[0]}</div>
       <div class="detail-info"><h4>${e.name}</h4><p>${e.title} · 사번 ${e.empNo}</p></div>
@@ -612,14 +569,12 @@ function openDetail(id){
     </div>
     <h4 style="margin-bottom:10px;font-size:.95rem">📋 사용 이력</h4>
     <div class="history-list">`;
-  if(e.history.length===0){
-    html+='<p style="text-align:center;color:#aaa;padding:20px">사용 이력이 없습니다</p>';
-  } else {
-    const sorted = [...e.history].sort((a,b)=>b.date.localeCompare(a.date));
-    sorted.forEach((h,idx)=>{
-      const typeColor = h.type==='연차'?'#4a00e0':h.type==='반차'?'#f39c12':'#27ae60';
-      // 원래 배열에서의 인덱스 찾기
-      const origIdx = e.history.indexOf(h);
+  if(e.history.length===0){html+='<p style="text-align:center;color:#aaa;padding:20px">사용 이력이 없습니다</p>'}
+  else{
+    const sorted=[...e.history].sort((a,b)=>b.date.localeCompare(a.date));
+    sorted.forEach(h=>{
+      const typeColor=h.type==='연차'?'#4a00e0':h.type==='반차'?'#f39c12':'#27ae60';
+      const origIdx=e.history.indexOf(h);
       html+=`<div class="history-item">
         <div style="display:flex;align-items:center;gap:10px">
           <span class="history-type" style="background:${typeColor}">${h.type}</span>
@@ -631,146 +586,85 @@ function openDetail(id){
     });
   }
   html+='</div>';
-  document.getElementById('detailContent').innerHTML = html;
+  document.getElementById('detailContent').innerHTML=html;
   openModal('detailModal');
 }
 
-// ═══════════════════════════════════════════════════════════
-// CANCEL LEAVE (취소 기능)
-// ═══════════════════════════════════════════════════════════
-function openCancelConfirm(empId, histIdx){
-  const emp = employees.find(x=>x.id===empId);
-  if(!emp || !emp.history[histIdx]) return;
-  const h = emp.history[histIdx];
-  const typeColor = h.type==='연차'?'#4a00e0':h.type==='반차'?'#f39c12':'#27ae60';
-  const deduct = h.type==='연차'?1:h.type==='반차'?0.5:0.25;
-
-  let html = `
+// ===== CANCEL LEAVE =====
+function openCancelConfirm(empId,histIdx){
+  const emp=employees.find(x=>x.id===empId);if(!emp||!emp.history[histIdx]) return;
+  const h=emp.history[histIdx];
+  const typeColor=h.type==='연차'?'#4a00e0':h.type==='반차'?'#f39c12':'#27ae60';
+  const deduct=h.type==='연차'?1:h.type==='반차'?0.5:0.25;
+  let html=`
     <div style="text-align:center;margin-bottom:16px">
       <div style="font-size:2.5rem;margin-bottom:8px">⚠️</div>
       <p style="font-size:1rem;font-weight:700;margin-bottom:8px">이 휴가를 취소하시겠습니까?</p>
     </div>
     <div style="background:#f8f9fa;border-radius:10px;padding:16px;margin-bottom:16px">
-      <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.9rem">
-        <span style="color:#888">직원</span><span style="font-weight:700">${emp.name} ${emp.title}</span>
-      </div>
-      <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.9rem">
-        <span style="color:#888">날짜</span><span style="font-weight:700">${h.date}</span>
-      </div>
-      <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.9rem">
-        <span style="color:#888">유형</span><span class="history-type" style="background:${typeColor};padding:3px 10px;border-radius:10px;color:#fff;font-size:.8rem">${h.type}</span>
-      </div>
-      <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.9rem">
-        <span style="color:#888">상세</span><span style="font-weight:700">${h.detail}</span>
-      </div>
-      <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.9rem;border-top:1px dashed #ddd;margin-top:6px;padding-top:8px">
-        <span style="color:#888">복구 일수</span><span style="font-weight:700;color:#27ae60">+${deduct}일</span>
-      </div>
+      <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.9rem"><span style="color:#888">직원</span><span style="font-weight:700">${emp.name} ${emp.title}</span></div>
+      <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.9rem"><span style="color:#888">날짜</span><span style="font-weight:700">${h.date}</span></div>
+      <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.9rem"><span style="color:#888">유형</span><span class="history-type" style="background:${typeColor};padding:3px 10px;border-radius:10px;color:#fff;font-size:.8rem">${h.type}</span></div>
+      <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.9rem"><span style="color:#888">상세</span><span style="font-weight:700">${h.detail}</span></div>
+      <div style="display:flex;justify-content:space-between;padding:4px 0;font-size:.9rem;border-top:1px dashed #ddd;margin-top:6px;padding-top:8px"><span style="color:#888">복구 일수</span><span style="font-weight:700;color:#27ae60">+${deduct}일</span></div>
     </div>
-    <div style="background:#fff5f5;border:1px solid #fcc;border-radius:8px;padding:12px;font-size:.82rem;color:#e74c3c;text-align:center">
-      취소 후에는 저장 버튼을 눌러야 최종 반영됩니다.
-    </div>`;
-
-  document.getElementById('cancelContent').innerHTML = html;
-  document.getElementById('cancelConfirmBtn').onclick = function(){
-    executeCancel(empId, histIdx);
-  };
+    <div style="background:#fff5f5;border:1px solid #fcc;border-radius:8px;padding:12px;font-size:.82rem;color:#e74c3c;text-align:center">취소 후에는 저장 버튼을 눌러야 최종 반영됩니다.</div>`;
+  document.getElementById('cancelContent').innerHTML=html;
+  document.getElementById('cancelConfirmBtn').onclick=function(){executeCancel(empId,histIdx)};
   openModal('cancelModal');
 }
 
-function executeCancel(empId, histIdx){
-  const emp = employees.find(x=>x.id===empId);
-  if(!emp || !emp.history[histIdx]) return;
-  const h = emp.history[histIdx];
-  const deduct = h.type==='연차'?1:h.type==='반차'?0.5:0.25;
-  const cancelDate = h.date;
-  const cancelType = h.type;
-  const cancelDetail = h.detail;
-
-  // 잔여일 복구
-  emp.remaining = Math.round((emp.remaining + deduct)*100)/100;
-  // 이력 삭제
-  emp.history.splice(histIdx, 1);
-
-  // 취소 메시지 자동 복사
-  const msg = `대표님께 ${cancelDate}에 ${cancelType}(${cancelDetail}) 사용을 취소합니다.`;
+function executeCancel(empId,histIdx){
+  const emp=employees.find(x=>x.id===empId);if(!emp||!emp.history[histIdx]) return;
+  const h=emp.history[histIdx];
+  const deduct=h.type==='연차'?1:h.type==='반차'?0.5:0.25;
+  const cancelDate=h.date,cancelType=h.type,cancelDetail=h.detail;
+  emp.remaining=Math.round((emp.remaining+deduct)*100)/100;
+  emp.history.splice(histIdx,1);
+  const msg=`대표님께 ${cancelDate}에 ${cancelType}(${cancelDetail}) 사용을 취소합니다.`;
   copyToClipboard(msg);
-
-  hasUnsaved = true;
-  document.getElementById('saveFloat').style.display = 'block';
-
+  hasUnsaved=true;document.getElementById('saveFloat').style.display='block';
   closeModal('cancelModal');
-  // 상세 모달 갱신
   openDetail(empId);
-  renderCalendar();
-  renderEmpTable();
-
+  renderCalendar();renderEmpTable();
   showToast(`✅ ${emp.name}님의 ${cancelDate} ${cancelType} 취소 완료! 취소 메시지가 복사되었습니다.`);
 }
 
-// ═══════════════════════════════════════════════════════════
-// APPLY MODAL
-// ═══════════════════════════════════════════════════════════
+// ===== APPLY MODAL =====
 function openApplyModal(){
-  applyStep=1;
-  applyData={empId:null,type:null,halfType:null,quarterTime:null,dates:[]};
-  updateApplySteps();
-  renderApplyStep();
-  openModal('applyModal');
+  applyStep=1;applyData={empId:null,type:null,halfType:null,quarterTime:null,dates:[]};
+  updateApplySteps();renderApplyStep();openModal('applyModal');
 }
-
 function updateApplySteps(){
-  for(let i=1;i<=4;i++){
-    const el=document.getElementById('step'+i);
-    el.classList.remove('active','done');
-    if(i<applyStep) el.classList.add('done');
-    else if(i===applyStep) el.classList.add('active');
-  }
+  for(let i=1;i<=4;i++){const el=document.getElementById('step'+i);el.classList.remove('active','done');if(i<applyStep)el.classList.add('done');else if(i===applyStep)el.classList.add('active')}
 }
-
 function renderApplyStep(){
   const c=document.getElementById('applyContent');
-  if(applyStep===1) renderStep1(c);
-  else if(applyStep===2) renderStep2(c);
-  else if(applyStep===3) renderStep3(c);
-  else renderStep4(c);
+  if(applyStep===1)renderStep1(c);else if(applyStep===2)renderStep2(c);else if(applyStep===3)renderStep3(c);else renderStep4(c);
 }
 
 function renderStep1(c){
   let html='<p style="margin-bottom:14px;font-weight:600;color:#555">신청자를 선택하세요</p><div class="emp-grid">';
   employees.forEach(e=>{
-    const sel = applyData.empId===e.id?'selected':'';
-    html+=`<div class="emp-card ${sel}" onclick="selectEmp('${e.id}')">
+    html+=`<div class="emp-card ${applyData.empId===e.id?'selected':''}" onclick="selectEmp('${e.id}')">
       <div class="avatar" style="background:${e.color}">${e.name[0]}</div>
       <div class="ename">${e.name}</div>
       <div class="etitle">${e.title}</div>
       <div style="font-size:.7rem;color:#aaa;margin-top:2px">잔여 ${e.remaining}일</div>
     </div>`;
   });
-  html+='</div>';
-  c.innerHTML=html;
+  html+='</div>';c.innerHTML=html;
 }
 
-function selectEmp(id){
-  applyData.empId=id;
-  applyStep=2;
-  updateApplySteps();
-  renderApplyStep();
-}
+function selectEmp(id){applyData.empId=id;applyStep=2;updateApplySteps();renderApplyStep()}
 
 function renderStep2(c){
   const emp=employees.find(x=>x.id===applyData.empId);
   let html=`<p style="margin-bottom:14px;font-weight:600;color:#555">${emp.name}님의 휴가 유형을 선택하세요</p>
   <div class="type-grid">
-    <div class="type-card ${applyData.type==='연차'?'selected':''}" onclick="selectType('연차')">
-      <div class="ticon">🌴</div><div class="tname">연차</div><div class="tdesc">1일 차감</div>
-    </div>
-    <div class="type-card ${applyData.type==='반차'?'selected':''}" onclick="selectType('반차')">
-      <div class="ticon">🌤️</div><div class="tname">반차</div><div class="tdesc">0.5일 차감</div>
-    </div>
-    <div class="type-card ${applyData.type==='반반차'?'selected':''}" onclick="selectType('반반차')">
-      <div class="ticon">⏰</div><div class="tname">반반차</div><div class="tdesc">0.25일 차감</div>
-    </div>
+    <div class="type-card ${applyData.type==='연차'?'selected':''}" onclick="selectType('연차')"><div class="ticon">🌴</div><div class="tname">연차</div><div class="tdesc">1일 차감</div></div>
+    <div class="type-card ${applyData.type==='반차'?'selected':''}" onclick="selectType('반차')"><div class="ticon">🌤️</div><div class="tname">반차</div><div class="tdesc">0.5일 차감</div></div>
+    <div class="type-card ${applyData.type==='반반차'?'selected':''}" onclick="selectType('반반차')"><div class="ticon">⏰</div><div class="tname">반반차</div><div class="tdesc">0.25일 차감</div></div>
   </div>`;
   if(applyData.type==='반차'){
     html+=`<div class="half-options">
@@ -781,64 +675,46 @@ function renderStep2(c){
   if(applyData.type==='반반차'){
     const times=['09:30~11:30','11:30~13:30','13:30~15:30','14:00~16:00','16:00~18:00'];
     html+='<div class="quarter-options">';
-    times.forEach(t=>{
-      html+=`<button class="btn ${applyData.quarterTime===t?'selected':''}" onclick="applyData.quarterTime='${t}';renderApplyStep()">${t}</button>`;
-    });
+    times.forEach(t=>{html+=`<button class="btn ${applyData.quarterTime===t?'selected':''}" onclick="applyData.quarterTime='${t}';renderApplyStep()">${t}</button>`});
     html+='</div>';
   }
-  const canNext = applyData.type && (applyData.type==='연차' || (applyData.type==='반차'&&applyData.halfType) || (applyData.type==='반반차'&&applyData.quarterTime));
+  const canNext=applyData.type&&(applyData.type==='연차'||(applyData.type==='반차'&&applyData.halfType)||(applyData.type==='반반차'&&applyData.quarterTime));
   html+=`<div style="margin-top:16px;display:flex;justify-content:space-between">
     <button class="btn btn-secondary" onclick="applyStep=1;updateApplySteps();renderApplyStep()">◀ 이전</button>
     <button class="btn btn-primary" ${canNext?'':`disabled style="opacity:.4;cursor:default"`} onclick="applyStep=3;updateApplySteps();renderApplyStep()">다음 ▶</button>
-  </div>`;
-  c.innerHTML=html;
+  </div>`;c.innerHTML=html;
 }
 
 function selectType(t){
   applyData.type=t;
   if(t==='연차'){applyData.halfType=null;applyData.quarterTime=null}
-  else if(t==='반차'){applyData.quarterTime=null}
-  else{applyData.halfType=null}
+  else if(t==='반차'){applyData.quarterTime=null}else{applyData.halfType=null}
   renderApplyStep();
 }
 
 function renderStep3(c){
-  const emp=employees.find(x=>x.id===applyData.empId);
   let html=`<p style="margin-bottom:14px;font-weight:600;color:#555">사용일을 선택하세요 (다중 선택 가능)</p>
   <div class="date-input-area">
     <input type="date" onchange="addApplyDate(this.value);this.value=''" style="padding:10px;border:1px solid #ddd;border-radius:8px;font-size:.9rem;width:100%">
-    <div class="selected-dates" id="selectedDates">`;
-  applyData.dates.forEach(d=>{
-    html+=`<span class="date-tag">${d}<span class="remove" onclick="removeApplyDate('${d}')">✕</span></span>`;
-  });
+    <div class="selected-dates">`;
+  applyData.dates.forEach(d=>{html+=`<span class="date-tag">${d}<span class="remove" onclick="removeApplyDate('${d}')">✕</span></span>`});
   html+=`</div></div>
   <div style="margin-top:16px;display:flex;justify-content:space-between">
     <button class="btn btn-secondary" onclick="applyStep=2;updateApplySteps();renderApplyStep()">◀ 이전</button>
     <button class="btn btn-primary" ${applyData.dates.length?'':`disabled style="opacity:.4;cursor:default"`} onclick="applyStep=4;updateApplySteps();renderApplyStep()">다음 ▶</button>
-  </div>`;
-  c.innerHTML=html;
+  </div>`;c.innerHTML=html;
 }
 
-function addApplyDate(v){
-  if(!v||applyData.dates.includes(v)) return;
-  applyData.dates.push(v);
-  applyData.dates.sort();
-  renderApplyStep();
-}
-
-function removeApplyDate(v){
-  applyData.dates=applyData.dates.filter(d=>d!==v);
-  renderApplyStep();
-}
+function addApplyDate(v){if(!v||applyData.dates.includes(v))return;applyData.dates.push(v);applyData.dates.sort();renderApplyStep()}
+function removeApplyDate(v){applyData.dates=applyData.dates.filter(d=>d!==v);renderApplyStep()}
 
 function renderStep4(c){
   const emp=employees.find(x=>x.id===applyData.empId);
-  const detail = applyData.type==='반차'?`${applyData.halfType} 반차`:applyData.type==='반반차'?applyData.quarterTime:'연차';
-  const deductPer = applyData.type==='연차'?1:applyData.type==='반차'?0.5:0.25;
-  const totalDeduct = deductPer * applyData.dates.length;
-  const dateStr = applyData.dates.join(', ');
-  const msg = `대표님께 ${dateStr}에 ${detail}을 사용하려고 합니다. 승인 부탁드립니다.`;
-
+  const detail=applyData.type==='반차'?`${applyData.halfType} 반차`:applyData.type==='반반차'?applyData.quarterTime:'연차';
+  const deductPer=applyData.type==='연차'?1:applyData.type==='반차'?0.5:0.25;
+  const totalDeduct=deductPer*applyData.dates.length;
+  const dateStr=applyData.dates.join(', ');
+  const msg=`대표님께 ${dateStr}에 ${detail}을 사용하려고 합니다. 승인 부탁드립니다.`;
   let html=`<div class="confirm-box">
     <div class="confirm-row"><span class="label">신청자</span><span class="value">${emp.name} ${emp.title}</span></div>
     <div class="confirm-row"><span class="label">유형</span><span class="value">${detail}</span></div>
@@ -846,78 +722,51 @@ function renderStep4(c){
     <div class="confirm-row"><span class="label">차감 일수</span><span class="value" style="color:#e74c3c">-${totalDeduct}일</span></div>
     <div class="confirm-row"><span class="label">잔여 예상</span><span class="value" style="color:#27ae60">${Math.round((emp.remaining-totalDeduct)*100)/100}일</span></div>
   </div>
-  <div class="copy-msg-box" id="copyMsg">📋 승인 요청 메시지 (자동 복사됨):<br><br><b>${msg}</b></div>
+  <div class="copy-msg-box">📋 승인 요청 메시지 (자동 복사됨):<br><br><b>${msg}</b></div>
   <div style="margin-top:16px;display:flex;justify-content:space-between">
     <button class="btn btn-secondary" onclick="applyStep=3;updateApplySteps();renderApplyStep()">◀ 이전</button>
     <button class="btn btn-fire" onclick="submitApply()">✅ 신청 완료</button>
-  </div>`;
-  c.innerHTML=html;
+  </div>`;c.innerHTML=html;
 }
 
 function submitApply(){
-  const emp=employees.find(x=>x.id===applyData.empId);
-  if(!emp) return;
-  const detail = applyData.type==='반차'?`${applyData.halfType} 반차`:applyData.type==='반반차'?applyData.quarterTime:'연차';
-  const deductPer = applyData.type==='연차'?1:applyData.type==='반차'?0.5:0.25;
-  const totalDeduct = deductPer * applyData.dates.length;
-
-  if(emp.remaining < totalDeduct){
-    showToast('❌ 잔여 연차가 부족합니다!');
-    return;
-  }
-
-  applyData.dates.forEach(d=>{
-    emp.history.push({date:d,type:applyData.type,detail});
-  });
-  emp.remaining = Math.round((emp.remaining - totalDeduct)*100)/100;
-
-  const dateStr = applyData.dates.join(', ');
-  const msg = `대표님께 ${dateStr}에 ${detail}을 사용하려고 합니다. 승인 부탁드립니다.`;
+  const emp=employees.find(x=>x.id===applyData.empId);if(!emp)return;
+  const detail=applyData.type==='반차'?`${applyData.halfType} 반차`:applyData.type==='반반차'?applyData.quarterTime:'연차';
+  const deductPer=applyData.type==='연차'?1:applyData.type==='반차'?0.5:0.25;
+  const totalDeduct=deductPer*applyData.dates.length;
+  if(emp.remaining<totalDeduct){showToast('❌ 잔여 연차가 부족합니다!');return}
+  applyData.dates.forEach(d=>{emp.history.push({date:d,type:applyData.type,detail})});
+  emp.remaining=Math.round((emp.remaining-totalDeduct)*100)/100;
+  const dateStr=applyData.dates.join(', ');
+  const msg=`대표님께 ${dateStr}에 ${detail}을 사용하려고 합니다. 승인 부탁드립니다.`;
   copyToClipboard(msg);
-
-  hasUnsaved = true;
-  document.getElementById('saveFloat').style.display = 'block';
-
-  closeModal('applyModal');
-  renderCalendar();
-  renderEmpTable();
+  hasUnsaved=true;document.getElementById('saveFloat').style.display='block';
+  closeModal('applyModal');renderCalendar();renderEmpTable();
   showToast(`✅ ${emp.name}님 연차 신청 완료! 승인 메시지가 복사되었습니다.`);
 }
 
-// ═══════════════════════════════════════════════════════════
-// SAVE
-// ═══════════════════════════════════════════════════════════
+// ===== SAVE =====
 function saveData(){
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(employees));
-  hasUnsaved = false;
-  document.getElementById('saveFloat').style.display = 'none';
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(employees));
+  localStorage.setItem(HOLIDAY_STORAGE_KEY,JSON.stringify(customHolidays));
+  hasUnsaved=false;document.getElementById('saveFloat').style.display='none';
   showToast('💾 저장되었습니다!');
 }
 
-// ═══════════════════════════════════════════════════════════
-// ADMIN
-// ═══════════════════════════════════════════════════════════
+// ===== ADMIN =====
 function openAdminLogin(){
-  document.getElementById('adminPwInput').value='';
-  openModal('adminLoginModal');
+  document.getElementById('adminPwInput').value='';openModal('adminLoginModal');
   setTimeout(()=>document.getElementById('adminPwInput').focus(),200);
 }
-
 function checkAdminPw(){
-  if(document.getElementById('adminPwInput').value===ADMIN_PW){
-    closeModal('adminLoginModal');
-    renderAdminPanel();
-    openModal('adminModal');
-  } else {
-    showToast('❌ 비밀번호가 틀렸습니다');
-  }
+  if(document.getElementById('adminPwInput').value===ADMIN_PW){closeModal('adminLoginModal');renderAdminPanel();openModal('adminModal')}
+  else{showToast('❌ 비밀번호가 틀렸습니다')}
 }
 
 function renderAdminPanel(){
   let html='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px"><h4>👥 직원 관리</h4><button class="btn btn-primary" onclick="openAddEmpForm()">+ 신규 직원 추가</button></div>';
   html+='<div class="admin-grid">';
   employees.forEach(e=>{
-    const used = e.totalLeave - e.remaining;
     html+=`<div class="admin-emp-card">
       <div class="admin-emp-top">
         <div class="avatar" style="background:${e.color}">${e.name[0]}</div>
@@ -932,7 +781,34 @@ function renderAdminPanel(){
     </div>`;
   });
   html+='</div>';
-  // Data tools
+
+  // ===== 공휴일 관리 섹션 =====
+  html+=`<div class="holiday-admin">
+    <h4>📅 공휴일 관리</h4>
+    <div class="holiday-add-row">
+      <div class="form-group"><label>날짜</label><input type="date" id="hol_date"></div>
+      <div class="form-group"><label>공휴일명</label><input id="hol_name" placeholder="예: 임시공휴일"></div>
+      <button class="btn btn-success" onclick="addCustomHoliday()" style="height:42px;margin-top:auto">+ 추가</button>
+    </div>
+    <div class="holiday-list">`;
+  // 기본 공휴일 표시
+  const allDates=[...new Set([...Object.keys(DEFAULT_HOLIDAYS),...Object.keys(customHolidays)])].sort();
+  allDates.forEach(d=>{
+    const isDefault=DEFAULT_HOLIDAYS[d]!==undefined;
+    const isCustom=customHolidays[d]!==undefined;
+    const name=isCustom?customHolidays[d]:DEFAULT_HOLIDAYS[d];
+    const typeLabel=isDefault&&!isCustom?'기본':'관리자 추가';
+    const typeClass=isDefault&&!isCustom?'default':'custom';
+    html+=`<div class="holiday-item">
+      <span class="hi-date">${d}</span>
+      <span class="hi-name">${name}</span>
+      <span class="hi-type ${typeClass}">${typeLabel}</span>
+      ${isCustom?`<button class="holiday-del-btn" onclick="deleteCustomHoliday('${d}')">삭제</button>`:`<span style="font-size:.7rem;color:#ccc;min-width:32px;text-align:center">—</span>`}
+    </div>`;
+  });
+  html+=`</div></div>`;
+
+  // 데이터 관리
   html+=`<div class="data-tools">
     <h4>🔧 데이터 관리</h4>
     <div class="btn-row">
@@ -945,27 +821,40 @@ function renderAdminPanel(){
   document.getElementById('adminContent').innerHTML=html;
 }
 
+// ===== 커스텀 공휴일 추가/삭제 =====
+function addCustomHoliday(){
+  const date=document.getElementById('hol_date').value;
+  const name=document.getElementById('hol_name').value.trim();
+  if(!date){showToast('❌ 날짜를 선택해주세요');return}
+  if(!name){showToast('❌ 공휴일명을 입력해주세요');return}
+  customHolidays[date]=name;
+  hasUnsaved=true;document.getElementById('saveFloat').style.display='block';
+  renderAdminPanel();renderCalendar();
+  showToast(`✅ ${date} "${name}" 공휴일이 추가되었습니다`);
+}
+
+function deleteCustomHoliday(date){
+  if(!confirm(`"${customHolidays[date]}" 공휴일을 삭제하시겠습니까?`))return;
+  const name=customHolidays[date];
+  delete customHolidays[date];
+  hasUnsaved=true;document.getElementById('saveFloat').style.display='block';
+  renderAdminPanel();renderCalendar();
+  showToast(`✅ ${date} "${name}" 공휴일이 삭제되었습니다`);
+}
+
+// ===== 직원 관리 =====
 function openAddEmpForm(){
   document.getElementById('empFormTitle').textContent='👤 신규 직원 추가';
-  const colors = ['#4a00e0','#e74c3c','#f39c12','#27ae60','#8e44ad','#3498db','#e67e22','#1abc9c'];
+  const colors=['#4a00e0','#e74c3c','#f39c12','#27ae60','#8e44ad','#3498db','#e67e22','#1abc9c'];
   let html=`
-    <div class="form-row">
-      <div class="form-group"><label>이름</label><input id="ef_name" placeholder="홍길동"></div>
-      <div class="form-group"><label>직급</label><input id="ef_title" placeholder="사원"></div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label>사원번호</label><input id="ef_empNo" placeholder="30"></div>
-      <div class="form-group"><label>총 연차일수</label><input type="number" id="ef_total" value="15"></div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label>갱신년월</label><input type="month" id="ef_renew" value="2026-01"></div>
-      <div class="form-group"><label>대표색상</label>
-        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px" id="ef_colors">
-          ${colors.map(c=>`<div onclick="document.querySelectorAll('#ef_colors div').forEach(x=>x.style.outline='none');this.style.outline='3px solid #333';document.getElementById('ef_color_val').value='${c}'" style="width:28px;height:28px;border-radius:50%;background:${c};cursor:pointer"></div>`).join('')}
-        </div>
-        <input type="hidden" id="ef_color_val" value="${colors[0]}">
-      </div>
-    </div>`;
+    <div class="form-row"><div class="form-group"><label>이름</label><input id="ef_name" placeholder="홍길동"></div><div class="form-group"><label>직급</label><input id="ef_title" placeholder="사원"></div></div>
+    <div class="form-row"><div class="form-group"><label>사원번호</label><input id="ef_empNo" placeholder="30"></div><div class="form-group"><label>총 연차일수</label><input type="number" id="ef_total" value="15"></div></div>
+    <div class="form-row"><div class="form-group"><label>갱신년월</label><input type="month" id="ef_renew" value="2026-01"></div>
+    <div class="form-group"><label>대표색상</label>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px" id="ef_colors">
+        ${colors.map(c=>`<div onclick="document.querySelectorAll('#ef_colors div').forEach(x=>x.style.outline='none');this.style.outline='3px solid #333';document.getElementById('ef_color_val').value='${c}'" style="width:28px;height:28px;border-radius:50%;background:${c};cursor:pointer"></div>`).join('')}
+      </div><input type="hidden" id="ef_color_val" value="${colors[0]}">
+    </div></div>`;
   document.getElementById('empFormContent').innerHTML=html;
   document.getElementById('empFormSubmit').onclick=addEmployee;
   openModal('empFormModal');
@@ -981,32 +870,18 @@ function addEmployee(){
   if(!name){showToast('❌ 이름을 입력해주세요');return}
   if(employees.find(e=>e.empNo===empNo)){showToast('❌ 중복된 사번입니다');return}
   employees.push({id:'e'+Date.now(),name,title,empNo,totalLeave:total,remaining:total,renewDate:renew,color,history:[]});
-  hasUnsaved=true;
-  document.getElementById('saveFloat').style.display='block';
-  closeModal('empFormModal');
-  renderAdminPanel();
-  renderCalendar();
-  renderEmpTable();
+  hasUnsaved=true;document.getElementById('saveFloat').style.display='block';
+  closeModal('empFormModal');renderAdminPanel();renderCalendar();renderEmpTable();
   showToast(`✅ ${name}님이 추가되었습니다`);
 }
 
 function openEditEmpForm(id){
-  const e=employees.find(x=>x.id===id);
-  if(!e) return;
+  const e=employees.find(x=>x.id===id);if(!e)return;
   document.getElementById('empFormTitle').textContent='✏️ 직원 정보 수정';
   let html=`
-    <div class="form-row">
-      <div class="form-group"><label>이름</label><input id="ef_name" value="${e.name}"></div>
-      <div class="form-group"><label>직급</label><input id="ef_title" value="${e.title}"></div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label>사원번호</label><input id="ef_empNo" value="${e.empNo}"></div>
-      <div class="form-group"><label>총 연차일수</label><input type="number" id="ef_total" value="${e.totalLeave}"></div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label>잔여 연차</label><input type="number" id="ef_remain" value="${e.remaining}" step="0.25"></div>
-      <div class="form-group"><label>갱신년월</label><input type="month" id="ef_renew" value="${e.renewDate}"></div>
-    </div>`;
+    <div class="form-row"><div class="form-group"><label>이름</label><input id="ef_name" value="${e.name}"></div><div class="form-group"><label>직급</label><input id="ef_title" value="${e.title}"></div></div>
+    <div class="form-row"><div class="form-group"><label>사원번호</label><input id="ef_empNo" value="${e.empNo}"></div><div class="form-group"><label>총 연차일수</label><input type="number" id="ef_total" value="${e.totalLeave}"></div></div>
+    <div class="form-row"><div class="form-group"><label>잔여 연차</label><input type="number" id="ef_remain" value="${e.remaining}" step="0.25"></div><div class="form-group"><label>갱신년월</label><input type="month" id="ef_renew" value="${e.renewDate}"></div></div>`;
   document.getElementById('empFormContent').innerHTML=html;
   document.getElementById('empFormSubmit').onclick=function(){
     e.name=document.getElementById('ef_name').value.trim()||e.name;
@@ -1015,144 +890,88 @@ function openEditEmpForm(id){
     e.totalLeave=parseFloat(document.getElementById('ef_total').value)||e.totalLeave;
     e.remaining=parseFloat(document.getElementById('ef_remain').value);
     e.renewDate=document.getElementById('ef_renew').value||e.renewDate;
-    hasUnsaved=true;
-    document.getElementById('saveFloat').style.display='block';
-    closeModal('empFormModal');
-    renderAdminPanel();
-    renderCalendar();
-    renderEmpTable();
+    hasUnsaved=true;document.getElementById('saveFloat').style.display='block';
+    closeModal('empFormModal');renderAdminPanel();renderCalendar();renderEmpTable();
     showToast(`✅ ${e.name}님 정보가 수정되었습니다`);
   };
   openModal('empFormModal');
 }
 
 function grantLeave(id){
-  const e=employees.find(x=>x.id===id);
-  if(!e) return;
+  const e=employees.find(x=>x.id===id);if(!e)return;
   const days=prompt(`${e.name}님에게 추가 부여할 연차 일수:`,1);
-  if(days===null) return;
-  const d=parseFloat(days);
+  if(days===null)return;const d=parseFloat(days);
   if(isNaN(d)||d<=0){showToast('❌ 올바른 숫자를 입력해주세요');return}
-  e.totalLeave+=d;
-  e.remaining+=d;
-  hasUnsaved=true;
-  document.getElementById('saveFloat').style.display='block';
-  renderAdminPanel();
-  renderEmpTable();
+  e.totalLeave+=d;e.remaining+=d;
+  hasUnsaved=true;document.getElementById('saveFloat').style.display='block';
+  renderAdminPanel();renderEmpTable();
   showToast(`✅ ${e.name}님에게 ${d}일 추가 부여 완료`);
 }
 
 function renewLeave(id){
-  const e=employees.find(x=>x.id===id);
-  if(!e) return;
-  if(!confirm(`${e.name}님의 연차를 갱신하시겠습니까?\n(사용 이력 초기화, 잔여일 = 총연차)`)) return;
-  e.remaining=e.totalLeave;
-  e.history=[];
-  const now=new Date();
-  e.renewDate=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
-  hasUnsaved=true;
-  document.getElementById('saveFloat').style.display='block';
-  renderAdminPanel();
-  renderCalendar();
-  renderEmpTable();
+  const e=employees.find(x=>x.id===id);if(!e)return;
+  if(!confirm(`${e.name}님의 연차를 갱신하시겠습니까?\n(사용 이력 초기화, 잔여일 = 총연차)`))return;
+  e.remaining=e.totalLeave;e.history=[];
+  const now=new Date();e.renewDate=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+  hasUnsaved=true;document.getElementById('saveFloat').style.display='block';
+  renderAdminPanel();renderCalendar();renderEmpTable();
   showToast(`✅ ${e.name}님 연차 갱신 완료`);
 }
 
 function deleteEmp(id){
-  const e=employees.find(x=>x.id===id);
-  if(!e) return;
-  if(!confirm(`정말 ${e.name}님을 삭제하시겠습니까?`)) return;
+  const e=employees.find(x=>x.id===id);if(!e)return;
+  if(!confirm(`정말 ${e.name}님을 삭제하시겠습니까?`))return;
   employees=employees.filter(x=>x.id!==id);
-  hasUnsaved=true;
-  document.getElementById('saveFloat').style.display='block';
-  renderAdminPanel();
-  renderCalendar();
-  renderEmpTable();
+  hasUnsaved=true;document.getElementById('saveFloat').style.display='block';
+  renderAdminPanel();renderCalendar();renderEmpTable();
   showToast(`✅ ${e.name}님이 삭제되었습니다`);
 }
 
 function exportData(){
-  const blob=new Blob([JSON.stringify(employees,null,2)],{type:'application/json'});
+  const data={employees,customHolidays};
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
   const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');
-  a.href=url;a.download=`prince_leave_backup_${fmt(new Date())}.json`;a.click();
-  URL.revokeObjectURL(url);
-  showToast('📤 데이터가 내보내졌습니다');
+  const a=document.createElement('a');a.href=url;a.download=`prince_leave_backup_${fmt(new Date())}.json`;a.click();
+  URL.revokeObjectURL(url);showToast('📤 데이터가 내보내졌습니다');
 }
 
 function importData(event){
-  const file=event.target.files[0];
-  if(!file) return;
+  const file=event.target.files[0];if(!file)return;
   const reader=new FileReader();
-  reader.onload=function(e){
+  reader.onload=function(ev){
     try{
-      const data=JSON.parse(e.target.result);
-      if(Array.isArray(data)){
-        employees=data;
-        hasUnsaved=true;
-        document.getElementById('saveFloat').style.display='block';
-        renderAdminPanel();
-        renderCalendar();
-        renderEmpTable();
-        showToast('📥 데이터를 가져왔습니다');
-      } else {
-        showToast('❌ 올바른 형식이 아닙니다');
-      }
-    }catch(err){
-      showToast('❌ 파일 읽기 오류');
-    }
+      const data=JSON.parse(ev.target.result);
+      if(Array.isArray(data)){employees=data}
+      else if(data.employees){employees=data.employees;if(data.customHolidays)customHolidays=data.customHolidays}
+      else{showToast('❌ 올바른 형식이 아닙니다');return}
+      hasUnsaved=true;document.getElementById('saveFloat').style.display='block';
+      renderAdminPanel();renderCalendar();renderEmpTable();showToast('📥 데이터를 가져왔습니다');
+    }catch(err){showToast('❌ 파일 읽기 오류')}
   };
-  reader.readAsText(file);
-  event.target.value='';
+  reader.readAsText(file);event.target.value='';
 }
 
 function resetAllData(){
-  if(!confirm('정말 모든 데이터를 초기화하시겠습니까?')) return;
-  if(!confirm('⚠️ 이 작업은 되돌릴 수 없습니다. 정말 진행하시겠습니까?')) return;
+  if(!confirm('정말 모든 데이터를 초기화하시겠습니까?'))return;
+  if(!confirm('⚠️ 이 작업은 되돌릴 수 없습니다. 정말 진행하시겠습니까?'))return;
   employees=JSON.parse(JSON.stringify(DEFAULT_EMP));
-  localStorage.removeItem(STORAGE_KEY);
-  hasUnsaved=false;
-  document.getElementById('saveFloat').style.display='none';
-  renderAdminPanel();
-  renderCalendar();
-  renderEmpTable();
+  customHolidays={};
+  localStorage.removeItem(STORAGE_KEY);localStorage.removeItem(HOLIDAY_STORAGE_KEY);
+  hasUnsaved=false;document.getElementById('saveFloat').style.display='none';
+  renderAdminPanel();renderCalendar();renderEmpTable();
   showToast('⚠️ 전체 데이터가 초기화되었습니다');
 }
 
-// ═══════════════════════════════════════════════════════════
-// UTILS
-// ═══════════════════════════════════════════════════════════
+// ===== UTILS =====
 function openModal(id){document.getElementById(id).classList.add('show')}
 function closeModal(id){document.getElementById(id).classList.remove('show')}
-function showToast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg;t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),3000);
-}
-function copyToClipboard(text){
-  if(navigator.clipboard){navigator.clipboard.writeText(text)}
-  else{const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta)}
-}
-function toggleSync(){
-  isFirebase=!isFirebase;
-  const btn=document.getElementById('syncBtn');
-  btn.innerHTML=isFirebase?'🟢 실시간 동기화':'🔴 오프라인 (로컬)';
-  showToast(isFirebase?'실시간 동기화 모드':'오프라인 모드 (로컬 저장)');
-}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500)}
+function copyToClipboard(text){if(navigator.clipboard){navigator.clipboard.writeText(text)}else{const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta)}}
+function toggleSync(){isFirebase=!isFirebase;document.getElementById('syncBtn').innerHTML=isFirebase?'🟢 실시간 동기화':'🔴 오프라인 (로컬)';showToast(isFirebase?'실시간 동기화 모드':'오프라인 모드 (로컬 저장)')}
 
-// Close modal on overlay click
-document.querySelectorAll('.modal-overlay').forEach(o=>{
-  o.addEventListener('click',function(e){
-    if(e.target===this) this.classList.remove('show');
-  });
-});
+document.querySelectorAll('.modal-overlay').forEach(o=>{o.addEventListener('click',function(e){if(e.target===this)this.classList.remove('show')})});
+window.addEventListener('beforeunload',function(e){if(hasUnsaved){e.preventDefault();e.returnValue=''}});
 
-// Warn before leave if unsaved
-window.addEventListener('beforeunload',function(e){
-  if(hasUnsaved){e.preventDefault();e.returnValue=''}
-});
-
-// INIT
 init();
 </script>
 </body>
