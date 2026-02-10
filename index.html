@@ -3,6 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ★ 캐시 방지 메타 태그 추가 -->
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+
+
 <title>프린스 연차휴가 관리 2025~2026</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📋</text></svg>">
 <style>
@@ -134,6 +141,8 @@ td.holiday-cell{background:#fff5f5}
 .history-type{padding:3px 10px;border-radius:10px;color:#fff;font-size:.75rem;font-weight:600}
 .history-cancel-btn{padding:4px 10px;border-radius:8px;border:1px solid #e74c3c;background:#fff;color:#e74c3c;font-size:.72rem;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap}
 .history-cancel-btn:hover{background:#e74c3c;color:#fff}
+.history-cancel-btn:disabled{border-color:#ccc;color:#ccc;background:#f8f8f8;cursor:not-allowed}
+.history-cancel-btn:disabled:hover{background:#f8f8f8;color:#ccc}
 .admin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;margin-bottom:20px}
 .admin-emp-card{background:#fff;border-radius:12px;padding:16px;border:1px solid #e8e8e8;transition:all .2s}
 .admin-emp-card:hover{box-shadow:0 4px 12px rgba(0,0,0,.08)}
@@ -256,7 +265,7 @@ td.holiday-cell{background:#fff5f5}
         <thead><tr><th>유형</th><th>차감</th><th>시간</th></tr></thead>
         <tbody>
           <tr><td>연차</td><td>1일</td><td>종일</td></tr>
-          <tr><td>반차 (오전)</td><td>0.5일</td><td>09:00 ~ 13:00</td></tr>
+          <tr><td>반차 (오전)</td><td>0.5일</td><td>09:00 ~ 14:00</td></tr>
           <tr><td>반차 (오후)</td><td>0.5일</td><td>14:00 ~ 18:00</td></tr>
           <tr><td>반반차</td><td>0.25일</td><td>2시간 단위 선택</td></tr>
         </tbody>
@@ -269,7 +278,7 @@ td.holiday-cell{background:#fff5f5}
           <tr><td>신청 방법</td><td>시스템 신청 후 대표님 승인</td></tr>
           <tr><td>사용 기한</td><td>갱신일 기준 1년 이내</td></tr>
           <tr><td>미사용 연차</td><td>수당으로 정산 또는 소멸</td></tr>
-          <tr><td>취소 방법</td><td>시스템에서 취소 후 대표님께 취소 메시지 전송</td></tr>
+          <tr><td>취소 방법</td><td>관리자에게 요청 후 시스템에서 취소</td></tr>
           <tr><td>사용 권장</td><td>연차사용촉진 권장, 팀원간 일정 확인 후 자유롭게 사용</td></tr>
         </tbody>
       </table>
@@ -277,7 +286,6 @@ td.holiday-cell{background:#fff5f5}
   </div>
 </div>
 
-<!-- Save Button -->
 <div class="save-float" id="saveFloat" style="display:none">
   <span class="save-status" id="saveStatus">⚠️ 저장되지 않은 변경사항</span>
   <button class="btn btn-primary" onclick="saveData()" style="background:linear-gradient(135deg,#4a00e0,#8e2de2)">💾 저장하기</button>
@@ -345,7 +353,7 @@ td.holiday-cell{background:#fff5f5}
   <div class="modal modal-lg">
     <div class="modal-header">
       <h3>⚙️ 관리자 패널</h3>
-      <button class="modal-close" onclick="closeModal('adminModal')">✕</button>
+      <button class="modal-close" onclick="closeAdminPanel()">✕</button>
     </div>
     <div class="modal-body" id="adminContent"></div>
   </div>
@@ -421,11 +429,8 @@ let customHolidays={};
 function getAllHolidays(){return{...DEFAULT_HOLIDAYS,...customHolidays}}
 
 const DEFAULT_EMP=[
-  {id:'e1',name:'도승지',title:'실장',empNo:'2',totalLeave:15,remaining:11.25,renewDate:'2026-01',color:'#4a00e0',history:[
-    {date:'2025-12-00',type:'연차',detail:'2025년 초과사용 2.5일 차감 (이월)'},
-    {date:'2026-01-08',type:'연차',detail:'연차'},
-    {date:'2026-01-16',type:'반반차',detail:'반반차'}
-  ]},
+{id:'e1',name:'도승지',title:'실장',empNo:'2',totalLeave:15,remaining:11.25,renewDate:'2026-01',color:'#4a00e0',history:[ {date:'2026-01-01',type:'연차',detail:'2025년 초과사용 차감 (1일차)'}, {date:'2026-01-01',type:'연차',detail:'2025년 초과사용 차감 (2일차)'}, {date:'2026-01-01',type:'반차',detail:'2025년 초과사용 차감 (0.5일)'}, {date:'2026-01-08',type:'연차',detail:'연차'}, {date:'2026-01-16',type:'반반차',detail:'반반차'} ]},
+
   {id:'e2',name:'정훈필',title:'대리',empNo:'18',totalLeave:13,remaining:8.25,renewDate:'2025-12',color:'#e74c3c',history:[
     {date:'2025-12-12',type:'연차',detail:'연차'},
     {date:'2025-12-23',type:'반반차',detail:'반반차'},
@@ -466,6 +471,7 @@ let applyStep=1;
 let applyData={empId:null,type:null,halfType:null,quarterTime:null,dates:[]};
 let hasUnsaved=false;
 let isFirebase=false;
+let isAdminMode=false;
 
 // ===== INIT =====
 function init(){
@@ -476,27 +482,17 @@ function init(){
 }
 
 function loadData(){
-  // 직원 데이터
   try{
     const saved=localStorage.getItem(STORAGE_KEY);
     if(saved){
       const parsed=JSON.parse(saved);
-      if(Array.isArray(parsed)&&parsed.length>0){
-        employees=parsed;
-      } else {
-        employees=JSON.parse(JSON.stringify(DEFAULT_EMP));
-      }
-    } else {
-      employees=JSON.parse(JSON.stringify(DEFAULT_EMP));
-    }
-  }catch(e){
-    employees=JSON.parse(JSON.stringify(DEFAULT_EMP));
-  }
-  // 커스텀 공휴일
+      if(Array.isArray(parsed)&&parsed.length>0){employees=parsed}
+      else{employees=JSON.parse(JSON.stringify(DEFAULT_EMP))}
+    }else{employees=JSON.parse(JSON.stringify(DEFAULT_EMP))}
+  }catch(e){employees=JSON.parse(JSON.stringify(DEFAULT_EMP))}
   try{
     const savedH=localStorage.getItem(HOLIDAY_STORAGE_KEY);
-    if(savedH) customHolidays=JSON.parse(savedH);
-    else customHolidays={};
+    if(savedH)customHolidays=JSON.parse(savedH);else customHolidays={};
   }catch(e){customHolidays={}}
 }
 
@@ -511,7 +507,7 @@ function switchTab(name){
   document.getElementById('sec-'+name).classList.add('active');
 }
 
-// ===== SAVE (강화) =====
+// ===== SAVE =====
 function markUnsaved(){
   hasUnsaved=true;
   document.getElementById('saveFloat').style.display='flex';
@@ -529,6 +525,19 @@ function saveData(){
   }
 }
 
+function autoSave(){
+  try{
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(employees));
+    localStorage.setItem(HOLIDAY_STORAGE_KEY,JSON.stringify(customHolidays));
+    hasUnsaved=false;
+    document.getElementById('saveFloat').style.display='none';
+    return true;
+  }catch(e){
+    markUnsaved();
+    return false;
+  }
+}
+
 // ===== CALENDAR =====
 function changeMonth(d){currentMonth.setMonth(currentMonth.getMonth()+d);renderCalendar()}
 
@@ -540,10 +549,10 @@ function renderCalendar(){
   const todayStr=fmt(new Date());
   const holidays=getAllHolidays();
   let html='<thead><tr><th>일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th></tr></thead><tbody><tr>';
-  for(let i=0;i<startDay;i++) html+='<td></td>';
+  for(let i=0;i<startDay;i++)html+='<td></td>';
   for(let d=1;d<=totalDays;d++){
     const dow=(startDay+d-1)%7;
-    if(dow===0&&d>1) html+='</tr><tr>';
+    if(dow===0&&d>1)html+='</tr><tr>';
     const ds=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
     const isToday=ds===todayStr,isSun=dow===0,isSat=dow===6;
     const hol=holidays[ds];
@@ -566,7 +575,7 @@ function fmt(d){return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0
 // ===== EMPLOYEE TABLE =====
 function renderEmpTable(){
   const used=e=>+(e.totalLeave-e.remaining).toFixed(2);
-  const pct=e=>Math.round((used(e)/e.totalLeave)*100);
+  const pct=e=>e.totalLeave>0?Math.round((used(e)/e.totalLeave)*100):0;
   let html=`<thead><tr><th style="text-align:left;padding-left:16px">직원명</th><th>사번</th><th>총연차</th><th>사용</th><th>잔여</th><th>사용률</th><th>갱신일</th></tr></thead><tbody>`;
   employees.forEach(e=>{
     const u=used(e),p=pct(e);
@@ -588,11 +597,11 @@ function renderEmpTable(){
   document.getElementById('empTable').innerHTML=html;
 }
 
-// ===== DETAIL =====
+// ===== DETAIL (취소 버튼 관리자 전용) =====
 function openDetail(id){
   const e=employees.find(x=>x.id===id);if(!e)return;
   const used=+(e.totalLeave-e.remaining).toFixed(2);
-  const pct=Math.round((used/e.totalLeave)*100);
+  const pct=e.totalLeave>0?Math.round((used/e.totalLeave)*100):0;
   const gaugeColor=pct>=80?'#e74c3c':pct>=50?'#f39c12':'#27ae60';
   let html=`
     <div class="detail-top">
@@ -609,7 +618,13 @@ function openDetail(id){
       <div style="display:flex;justify-content:space-between;margin-bottom:4px;font-size:.8rem"><span>사용률</span><span>${pct}%</span></div>
       <div class="gauge-bar"><div class="gauge-fill" style="width:${pct}%;background:${gaugeColor}"></div></div>
     </div>
-    <h4 style="margin-bottom:10px;font-size:.95rem">📋 사용 이력</h4><div class="history-list">`;
+    <h4 style="margin-bottom:10px;font-size:.95rem">📋 사용 이력</h4>`;
+
+  if(!isAdminMode){
+    html+=`<div style="background:#f8f9fa;border-radius:8px;padding:8px 12px;margin-bottom:10px;font-size:.78rem;color:#888;display:flex;align-items:center;gap:6px;">🔒 취소는 관리자만 가능합니다. 취소가 필요하면 관리자에게 요청하세요.</div>`;
+  }
+
+  html+='<div class="history-list">';
   if(e.history.length===0){html+='<p style="text-align:center;color:#aaa;padding:20px">사용 이력이 없습니다</p>'}
   else{
     const sorted=[...e.history].sort((a,b)=>b.date.localeCompare(a.date));
@@ -620,9 +635,13 @@ function openDetail(id){
         <div style="display:flex;align-items:center;gap:10px">
           <span class="history-type" style="background:${typeColor}">${h.type}</span>
           <span>${h.date}</span><span style="color:#888;font-size:.8rem">${h.detail}</span>
-        </div>
-        <button class="history-cancel-btn" onclick="openCancelConfirm('${e.id}',${origIdx})">❌ 취소</button>
-      </div>`;
+        </div>`;
+      if(isAdminMode){
+        html+=`<button class="history-cancel-btn" onclick="openCancelConfirm('${e.id}',${origIdx})">❌ 취소</button>`;
+      }else{
+        html+=`<button class="history-cancel-btn" disabled title="관리자만 취소할 수 있습니다">🔒 취소</button>`;
+      }
+      html+=`</div>`;
     });
   }
   html+='</div>';
@@ -630,8 +649,9 @@ function openDetail(id){
   openModal('detailModal');
 }
 
-// ===== CANCEL =====
+// ===== CANCEL (자동저장 포함) =====
 function openCancelConfirm(empId,histIdx){
+  if(!isAdminMode){showToast('❌ 관리자만 취소할 수 있습니다.');return}
   const emp=employees.find(x=>x.id===empId);if(!emp||!emp.history[histIdx])return;
   const h=emp.history[histIdx];
   const typeColor=h.type==='연차'?'#4a00e0':h.type==='반차'?'#f39c12':'#27ae60';
@@ -652,18 +672,24 @@ function openCancelConfirm(empId,histIdx){
 }
 
 function executeCancel(empId,histIdx){
+  if(!isAdminMode){showToast('❌ 관리자만 취소할 수 있습니다.');return}
   const emp=employees.find(x=>x.id===empId);if(!emp||!emp.history[histIdx])return;
   const h=emp.history[histIdx];
   const deduct=h.type==='연차'?1:h.type==='반차'?0.5:0.25;
-  const msg=`대표님, ${h.date}에 ${h.type} 사용을 취소합니다.`;
+  const msg=`대표님, ${emp.name}님의 ${h.date} ${h.type} 사용을 취소합니다.`;
   emp.remaining=Math.round((emp.remaining+deduct)*100)/100;
   emp.history.splice(histIdx,1);
   copyToClipboard(msg);
-  markUnsaved();
+
+  if(autoSave()){
+    showToast('✅ 취소 완료! 자동 저장 및 취소 메시지가 복사되었습니다.');
+  }else{
+    showToast('✅ 취소 완료! 메시지 복사됨. ⚠️ 저장 버튼을 눌러주세요.');
+  }
+
   closeModal('cancelModal');
   openDetail(empId);
   renderCalendar();renderEmpTable();
-  showToast(`✅ 취소 완료! 취소 메시지가 복사되었습니다.`);
 }
 
 // ===== APPLY =====
@@ -689,8 +715,8 @@ function renderStep2(c){
     <div class="type-card ${applyData.type==='반차'?'selected':''}" onclick="selectType('반차')"><div class="ticon">🌤️</div><div class="tname">반차</div><div class="tdesc">0.5일 차감</div></div>
     <div class="type-card ${applyData.type==='반반차'?'selected':''}" onclick="selectType('반반차')"><div class="ticon">⏰</div><div class="tname">반반차</div><div class="tdesc">0.25일 차감</div></div>
   </div>`;
-  if(applyData.type==='반차'){html+=`<div class="half-options"><button class="btn ${applyData.halfType==='오전'?'selected':''}" onclick="applyData.halfType='오전';renderApplyStep()">🌅 오전 (09~13시)</button><button class="btn ${applyData.halfType==='오후'?'selected':''}" onclick="applyData.halfType='오후';renderApplyStep()">🌇 오후 (14~18시)</button></div>`}
-  if(applyData.type==='반반차'){const times=['09:30~11:30','11:30~13:30','13:30~15:30','14:00~16:00','16:00~18:00'];html+='<div class="quarter-options">';times.forEach(t=>{html+=`<button class="btn ${applyData.quarterTime===t?'selected':''}" onclick="applyData.quarterTime='${t}';renderApplyStep()">${t}</button>`});html+='</div>'}
+  if(applyData.type==='반차'){html+=`<div class="half-options"><button class="btn ${applyData.halfType==='오전'?'selected':''}" onclick="applyData.halfType='오전';renderApplyStep()">🌅 오전 (9시30분~14시)</button><button class="btn ${applyData.halfType==='오후'?'selected':''}" onclick="applyData.halfType='오후';renderApplyStep()">🌇 오후 (14시~18시)</button></div>`}
+  if(applyData.type==='반반차'){const times=['09:30~11:30','13:00~15:00','14:00~16:00','15:00~17:00','16:00~18:00'];html+='<div class="quarter-options">';times.forEach(t=>{html+=`<button class="btn ${applyData.quarterTime===t?'selected':''}" onclick="applyData.quarterTime='${t}';renderApplyStep()">${t}</button>`});html+='</div>'}
   const canNext=applyData.type&&(applyData.type==='연차'||(applyData.type==='반차'&&applyData.halfType)||(applyData.type==='반반차'&&applyData.quarterTime));
   html+=`<div style="margin-top:16px;display:flex;justify-content:space-between"><button class="btn btn-secondary" onclick="applyStep=1;updateApplySteps();renderApplyStep()">◀ 이전</button><button class="btn btn-primary" ${canNext?'':`disabled style="opacity:.4;cursor:default"`} onclick="applyStep=3;updateApplySteps();renderApplyStep()">다음 ▶</button></div>`;
   c.innerHTML=html;
@@ -704,48 +730,86 @@ function renderStep3(c){
   html+=`</div></div><div style="margin-top:16px;display:flex;justify-content:space-between"><button class="btn btn-secondary" onclick="applyStep=2;updateApplySteps();renderApplyStep()">◀ 이전</button><button class="btn btn-primary" ${applyData.dates.length?'':`disabled style="opacity:.4;cursor:default"`} onclick="applyStep=4;updateApplySteps();renderApplyStep()">다음 ▶</button></div>`;
   c.innerHTML=html;
 }
-function addApplyDate(v){if(!v||applyData.dates.includes(v))return;applyData.dates.push(v);applyData.dates.sort();renderApplyStep()}
+function addApplyDate(v){
+  if(!v||applyData.dates.includes(v))return;
+  const holidays=getAllHolidays();
+  const d=new Date(v);const dow=d.getDay();
+  if(dow===0||dow===6){showToast('❌ 주말에는 신청할 수 없습니다.');return}
+  if(holidays[v]){showToast('❌ 공휴일에는 신청할 수 없습니다.');return}
+  const emp=employees.find(x=>x.id===applyData.empId);
+  if(emp){
+    const dup=emp.history.find(h=>h.date===v);
+    if(dup){showToast(`❌ ${v}에 이미 ${dup.type}이(가) 등록되어 있습니다.`);return}
+  }
+  applyData.dates.push(v);applyData.dates.sort();renderApplyStep();
+}
 function removeApplyDate(v){applyData.dates=applyData.dates.filter(d=>d!==v);renderApplyStep()}
 
 function renderStep4(c){
   const emp=employees.find(x=>x.id===applyData.empId);
-  const detail=applyData.type==='반차'?`${applyData.halfType} 반차`:applyData.type==='반반차'?applyData.quarterTime:'연차';
+  const detail=applyData.type==='반차'?`${applyData.halfType} 반차`:applyData.type==='반반차'?`반반차(${applyData.quarterTime})`:'연차';
   const deductPer=applyData.type==='연차'?1:applyData.type==='반차'?0.5:0.25;
   const totalDeduct=deductPer*applyData.dates.length;
   const dateStr=applyData.dates.join(', ');
-  // 수정된 메시지 형식
   const msg=`대표님, ${dateStr}에 ${detail}를 사용하려고 합니다. 승인부탁드립니다.`;
+  const afterRemain=Math.round((emp.remaining-totalDeduct)*100)/100;
   let html=`<div class="confirm-box">
     <div class="confirm-row"><span class="label">신청자</span><span class="value">${emp.name} ${emp.title}</span></div>
     <div class="confirm-row"><span class="label">유형</span><span class="value">${detail}</span></div>
     <div class="confirm-row"><span class="label">날짜</span><span class="value">${dateStr}</span></div>
     <div class="confirm-row"><span class="label">차감 일수</span><span class="value" style="color:#e74c3c">-${totalDeduct}일</span></div>
-    <div class="confirm-row"><span class="label">잔여 예상</span><span class="value" style="color:#27ae60">${Math.round((emp.remaining-totalDeduct)*100)/100}일</span></div>
-  </div>
-  <div class="copy-msg-box">📋 승인 요청 메시지 (신청 시 자동 복사):<br><br><b>${msg}</b></div>
-  <div style="margin-top:16px;display:flex;justify-content:space-between"><button class="btn btn-secondary" onclick="applyStep=3;updateApplySteps();renderApplyStep()">◀ 이전</button><button class="btn btn-fire" onclick="submitApply()">✅ 신청 완료</button></div>`;
+    <div class="confirm-row"><span class="label">잔여 예상</span><span class="value" style="color:${afterRemain<0?'#e74c3c':'#27ae60'}">${afterRemain}일</span></div>
+  </div>`;
+  if(afterRemain<0){
+    html+=`<div style="background:#fee;border:1px solid #e74c3c;border-radius:8px;padding:12px;margin-top:12px;color:#e74c3c;font-size:.85rem;font-weight:600;">⚠️ 잔여 연차가 부족합니다! 신청할 수 없습니다.</div>`;
+  }
+  html+=`<div class="copy-msg-box">📋 승인 요청 메시지 (신청 시 자동 복사):<br><br><b>${msg}</b></div>
+  <div style="margin-top:16px;display:flex;justify-content:space-between"><button class="btn btn-secondary" onclick="applyStep=3;updateApplySteps();renderApplyStep()">◀ 이전</button><button class="btn btn-fire" ${afterRemain<0?'disabled style="opacity:.4;cursor:default"':''}onclick="submitApply()">✅ 신청 완료</button></div>`;
   c.innerHTML=html;
 }
 
 function submitApply(){
   const emp=employees.find(x=>x.id===applyData.empId);if(!emp)return;
-  const detail=applyData.type==='반차'?`${applyData.halfType} 반차`:applyData.type==='반반차'?applyData.quarterTime:'연차';
+  const detail=applyData.type==='반차'?`${applyData.halfType} 반차`:applyData.type==='반반차'?`반반차(${applyData.quarterTime})`:'연차';
   const deductPer=applyData.type==='연차'?1:applyData.type==='반차'?0.5:0.25;
   const totalDeduct=deductPer*applyData.dates.length;
   if(emp.remaining<totalDeduct){showToast('❌ 잔여 연차가 부족합니다!');return}
+
   applyData.dates.forEach(d=>{emp.history.push({date:d,type:applyData.type,detail})});
+  emp.history.sort((a,b)=>a.date.localeCompare(b.date));
   emp.remaining=Math.round((emp.remaining-totalDeduct)*100)/100;
+
   const dateStr=applyData.dates.join(', ');
   const msg=`대표님, ${dateStr}에 ${detail}를 사용하려고 합니다. 승인부탁드립니다.`;
   copyToClipboard(msg);
-  markUnsaved();
+
+  if(autoSave()){
+    showToast(`✅ ${emp.name}님 연차 신청 완료! 자동 저장 및 메시지 복사 완료`);
+  }else{
+    showToast(`✅ ${emp.name}님 연차 신청 완료! 메시지 복사됨. ⚠️ 저장 버튼을 눌러주세요.`);
+  }
+
   closeModal('applyModal');renderCalendar();renderEmpTable();
-  showToast(`✅ ${emp.name}님 연차 신청 완료! 승인 메시지가 복사되었습니다.`);
 }
 
 // ===== ADMIN =====
 function openAdminLogin(){document.getElementById('adminPwInput').value='';openModal('adminLoginModal');setTimeout(()=>document.getElementById('adminPwInput').focus(),200)}
-function checkAdminPw(){if(document.getElementById('adminPwInput').value===ADMIN_PW){closeModal('adminLoginModal');renderAdminPanel();openModal('adminModal')}else{showToast('❌ 비밀번호가 틀렸습니다')}}
+
+function checkAdminPw(){
+  if(document.getElementById('adminPwInput').value===ADMIN_PW){
+    isAdminMode=true;
+    closeModal('adminLoginModal');
+    renderAdminPanel();
+    openModal('adminModal');
+  }else{
+    showToast('❌ 비밀번호가 틀렸습니다');
+  }
+}
+
+function closeAdminPanel(){
+  isAdminMode=false;
+  closeModal('adminModal');
+}
 
 function renderAdminPanel(){
   let html='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px"><h4>👥 직원 관리</h4><button class="btn btn-primary" onclick="openAddEmpForm()">+ 신규 직원 추가</button></div><div class="admin-grid">';
@@ -756,12 +820,13 @@ function renderAdminPanel(){
         <button class="btn btn-outline" onclick="openEditEmpForm('${e.id}')">✏️ 수정</button>
         <button class="btn btn-outline" onclick="grantLeave('${e.id}')">➕ 연차부여</button>
         <button class="btn btn-warning" onclick="openRenewModal('${e.id}')">🔄 갱신</button>
+        <button class="btn btn-outline" onclick="openDetail('${e.id}')">📋 이력</button>
         <button class="btn btn-danger" onclick="deleteEmp('${e.id}')">🗑️ 삭제</button>
       </div>
     </div>`;
   });
   html+='</div>';
-  // 공휴일 관리
+
   html+=`<div class="holiday-admin"><h4>📅 공휴일 관리</h4>
     <div class="holiday-add-row"><div class="form-group"><label>날짜</label><input type="date" id="hol_date"></div><div class="form-group"><label>공휴일명</label><input id="hol_name" placeholder="예: 임시공휴일"></div><button class="btn btn-success" onclick="addCustomHoliday()" style="height:42px;margin-top:auto">+ 추가</button></div>
     <div class="holiday-list">`;
@@ -772,12 +837,12 @@ function renderAdminPanel(){
     html+=`<div class="holiday-item"><span class="hi-date">${d}</span><span class="hi-name">${name}</span><span class="hi-type ${isDefault&&!isCustom?'default':'custom'}">${isDefault&&!isCustom?'기본':'관리자 추가'}</span>${isCustom?`<button class="holiday-del-btn" onclick="deleteCustomHoliday('${d}')">삭제</button>`:`<span style="font-size:.7rem;color:#ccc;min-width:32px;text-align:center">—</span>`}</div>`;
   });
   html+='</div></div>';
-  // 데이터 관리
+
   html+=`<div class="data-tools"><h4>🔧 데이터 관리</h4><div class="btn-row"><button class="btn btn-outline" onclick="exportData()">📤 내보내기 (JSON)</button><button class="btn btn-outline" onclick="document.getElementById('importFile').click()">📥 가져오기</button><input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)"><button class="btn btn-danger" onclick="resetAllData()">⚠️ 전체 초기화</button></div></div>`;
   document.getElementById('adminContent').innerHTML=html;
 }
 
-// ===== RENEW (갱신 로직 개선) =====
+// ===== RENEW =====
 function openRenewModal(id){
   const e=employees.find(x=>x.id===id);if(!e)return;
   const used=+(e.totalLeave-e.remaining).toFixed(2);
@@ -817,10 +882,16 @@ function executeRenew(id){
   e.totalLeave=newTotal;
   e.remaining=newTotal;
   e.renewDate=newDate;
-  markUnsaved();
+
+  if(autoSave()){
+    showToast(`✅ ${e.name}님 연차 갱신 완료! 자동 저장됨 (${newTotal}일, 이력 초기화)`);
+  }else{
+    markUnsaved();
+    showToast(`✅ ${e.name}님 연차 갱신 완료! ⚠️ 저장 버튼을 눌러주세요.`);
+  }
+
   closeModal('renewModal');
   renderAdminPanel();renderCalendar();renderEmpTable();
-  showToast(`✅ ${e.name}님 연차 갱신 완료! (${newTotal}일, 이력 초기화)`);
 }
 
 // ===== 공휴일 관리 =====
@@ -828,13 +899,30 @@ function addCustomHoliday(){
   const date=document.getElementById('hol_date').value;const name=document.getElementById('hol_name').value.trim();
   if(!date){showToast('❌ 날짜를 선택해주세요');return}
   if(!name){showToast('❌ 공휴일명을 입력해주세요');return}
-  customHolidays[date]=name;markUnsaved();renderAdminPanel();renderCalendar();
-  showToast(`✅ ${date} "${name}" 공휴일 추가`);
+  customHolidays[date]=name;
+
+  if(autoSave()){
+    showToast(`✅ ${date} "${name}" 공휴일 추가 및 자동 저장`);
+  }else{
+    markUnsaved();
+    showToast(`✅ ${date} "${name}" 공휴일 추가. ⚠️ 저장 필요`);
+  }
+
+  renderAdminPanel();renderCalendar();
 }
+
 function deleteCustomHoliday(date){
   if(!confirm(`"${customHolidays[date]}" 공휴일을 삭제하시겠습니까?`))return;
-  delete customHolidays[date];markUnsaved();renderAdminPanel();renderCalendar();
-  showToast('✅ 공휴일 삭제 완료');
+  delete customHolidays[date];
+
+  if(autoSave()){
+    showToast('✅ 공휴일 삭제 및 자동 저장 완료');
+  }else{
+    markUnsaved();
+    showToast('✅ 공휴일 삭제. ⚠️ 저장 필요');
+  }
+
+  renderAdminPanel();renderCalendar();
 }
 
 // ===== 직원 CRUD =====
@@ -847,15 +935,24 @@ function openAddEmpForm(){
   document.getElementById('empFormContent').innerHTML=html;
   document.getElementById('empFormSubmit').onclick=addEmployee;openModal('empFormModal');
 }
+
 function addEmployee(){
   const name=document.getElementById('ef_name').value.trim(),title=document.getElementById('ef_title').value.trim(),empNo=document.getElementById('ef_empNo').value.trim();
   const total=parseFloat(document.getElementById('ef_total').value)||15,renew=document.getElementById('ef_renew').value||'2026-01',color=document.getElementById('ef_color_val').value;
   if(!name){showToast('❌ 이름을 입력해주세요');return}
   if(employees.find(e=>e.empNo===empNo)){showToast('❌ 중복된 사번입니다');return}
   employees.push({id:'e'+Date.now(),name,title,empNo,totalLeave:total,remaining:total,renewDate:renew,color,history:[]});
-  markUnsaved();closeModal('empFormModal');renderAdminPanel();renderCalendar();renderEmpTable();
-  showToast(`✅ ${name}님이 추가되었습니다`);
+
+  if(autoSave()){
+    showToast(`✅ ${name}님이 추가 및 자동 저장되었습니다`);
+  }else{
+    markUnsaved();
+    showToast(`✅ ${name}님이 추가되었습니다. ⚠️ 저장 필요`);
+  }
+
+  closeModal('empFormModal');renderAdminPanel();renderCalendar();renderEmpTable();
 }
+
 function openEditEmpForm(id){
   const e=employees.find(x=>x.id===id);if(!e)return;
   document.getElementById('empFormTitle').textContent='✏️ 직원 정보 수정';
@@ -866,23 +963,49 @@ function openEditEmpForm(id){
   document.getElementById('empFormSubmit').onclick=function(){
     e.name=document.getElementById('ef_name').value.trim()||e.name;e.title=document.getElementById('ef_title').value.trim()||e.title;
     e.empNo=document.getElementById('ef_empNo').value.trim()||e.empNo;e.totalLeave=parseFloat(document.getElementById('ef_total').value)||e.totalLeave;
-    e.remaining=parseFloat(document.getElementById('ef_remain').value);e.renewDate=document.getElementById('ef_renew').value||e.renewDate;
-    markUnsaved();closeModal('empFormModal');renderAdminPanel();renderCalendar();renderEmpTable();
-    showToast(`✅ ${e.name}님 정보 수정 완료`);
+    e.remaining=parseFloat(document.getElementById('ef_remain').value);if(isNaN(e.remaining))e.remaining=0;
+    e.renewDate=document.getElementById('ef_renew').value||e.renewDate;
+
+    if(autoSave()){
+      showToast(`✅ ${e.name}님 정보 수정 및 자동 저장 완료`);
+    }else{
+      markUnsaved();
+      showToast(`✅ ${e.name}님 정보 수정 완료. ⚠️ 저장 필요`);
+    }
+
+    closeModal('empFormModal');renderAdminPanel();renderCalendar();renderEmpTable();
   };openModal('empFormModal');
 }
+
 function grantLeave(id){
   const e=employees.find(x=>x.id===id);if(!e)return;
   const days=prompt(`${e.name}님에게 추가 부여할 연차 일수:`,1);if(days===null)return;
   const d=parseFloat(days);if(isNaN(d)||d<=0){showToast('❌ 올바른 숫자를 입력해주세요');return}
   e.totalLeave=Math.round((e.totalLeave+d)*100)/100;e.remaining=Math.round((e.remaining+d)*100)/100;
-  markUnsaved();renderAdminPanel();renderEmpTable();showToast(`✅ ${e.name}님에게 ${d}일 추가 부여`);
+
+  if(autoSave()){
+    showToast(`✅ ${e.name}님에게 ${d}일 추가 부여 및 자동 저장`);
+  }else{
+    markUnsaved();
+    showToast(`✅ ${e.name}님에게 ${d}일 추가 부여. ⚠️ 저장 필요`);
+  }
+
+  renderAdminPanel();renderEmpTable();
 }
+
 function deleteEmp(id){
   const e=employees.find(x=>x.id===id);if(!e)return;
-  if(!confirm(`정말 ${e.name}님을 삭제하시겠습니까?`))return;
-  employees=employees.filter(x=>x.id!==id);markUnsaved();renderAdminPanel();renderCalendar();renderEmpTable();
-  showToast(`✅ ${e.name}님 삭제 완료`);
+  if(!confirm(`정말 ${e.name}님을 삭제하시겠습니까?\n\n⚠️ 이 작업은 되돌릴 수 없습니다.`))return;
+  employees=employees.filter(x=>x.id!==id);
+
+  if(autoSave()){
+    showToast(`✅ ${e.name}님 삭제 및 자동 저장 완료`);
+  }else{
+    markUnsaved();
+    showToast(`✅ ${e.name}님 삭제. ⚠️ 저장 필요`);
+  }
+
+  renderAdminPanel();renderCalendar();renderEmpTable();
 }
 
 // ===== DATA TOOLS =====
@@ -893,6 +1016,7 @@ function exportData(){
   a.href=url;a.download=`prince_leave_backup_${fmt(new Date())}.json`;a.click();
   URL.revokeObjectURL(url);showToast('📤 데이터 내보내기 완료');
 }
+
 function importData(event){
   const file=event.target.files[0];if(!file)return;
   const reader=new FileReader();
@@ -901,10 +1025,17 @@ function importData(event){
       if(Array.isArray(data)){employees=data}
       else if(data.employees){employees=data.employees;if(data.customHolidays)customHolidays=data.customHolidays}
       else{showToast('❌ 올바른 형식이 아닙니다');return}
-      markUnsaved();renderAdminPanel();renderCalendar();renderEmpTable();showToast('📥 데이터 가져오기 완료');
+      if(autoSave()){
+        showToast('📥 데이터 가져오기 및 자동 저장 완료');
+      }else{
+        markUnsaved();
+        showToast('📥 데이터 가져오기 완료. ⚠️ 저장 필요');
+      }
+      renderAdminPanel();renderCalendar();renderEmpTable();
     }catch(err){showToast('❌ 파일 읽기 오류')}
   };reader.readAsText(file);event.target.value='';
 }
+
 function resetAllData(){
   if(!confirm('정말 모든 데이터를 초기화하시겠습니까?'))return;
   if(!confirm('⚠️ 되돌릴 수 없습니다. 정말 진행하시겠습니까?'))return;
@@ -918,10 +1049,19 @@ function resetAllData(){
 function openModal(id){document.getElementById(id).classList.add('show')}
 function closeModal(id){document.getElementById(id).classList.remove('show')}
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500)}
-function copyToClipboard(text){if(navigator.clipboard){navigator.clipboard.writeText(text)}else{const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta)}}
+function copyToClipboard(text){if(navigator.clipboard){navigator.clipboard.writeText(text).catch(()=>{fallbackCopy(text)})}else{fallbackCopy(text)}}
+function fallbackCopy(text){const ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.left='-9999px';document.body.appendChild(ta);ta.select();try{document.execCommand('copy')}catch(e){}document.body.removeChild(ta)}
 function toggleSync(){isFirebase=!isFirebase;document.getElementById('syncBtn').innerHTML=isFirebase?'🟢 실시간 동기화':'🔴 오프라인 (로컬)';showToast(isFirebase?'실시간 동기화 모드':'오프라인 모드')}
 
-document.querySelectorAll('.modal-overlay').forEach(o=>{o.addEventListener('click',function(e){if(e.target===this)this.classList.remove('show')})});
+document.querySelectorAll('.modal-overlay').forEach(o=>{
+  o.addEventListener('click',function(e){
+    if(e.target===this){
+      if(this.id==='adminModal'){isAdminMode=false}
+      this.classList.remove('show');
+    }
+  });
+});
+
 window.addEventListener('beforeunload',function(e){if(hasUnsaved){e.preventDefault();e.returnValue=''}});
 
 init();
